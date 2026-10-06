@@ -1,4 +1,4 @@
-const CACHE='protocolo-hero-v1-20261006c';
+const CACHE='protocolo-hero-v1-20261006d';
 const ASSETS=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
