@@ -45,7 +45,7 @@ const checks=`
 const assert=(cond,msg)=>{if(!cond)throw new Error(msg)};
 
 // Migração/shape
-assert(Store.d.version==='2.0.0-beta.1','versão V2');
+assert(Store.d.version==='2.0.0-beta.2','versão V2');
 assert(Array.isArray(Store.d.history),'history array');
 assert(Array.isArray(Store.d.runs),'runs array');
 assert(Array.isArray(Store.d.padel),'padel array');
@@ -78,6 +78,20 @@ Store.d.session={w:'A',eq:'gym',i:0,ex:[]};
 discardSession();
 assert(Store.d.session===null,'sessão cancelada');
 assert(Store.d.history.length===1&&Store.d.history[0].id==='keep','histórico preservado');
+
+// Plano dinâmico: adiar/trocar sem perder ao normalizar
+Store.d.session=null;
+draft={w:'A',eq:'trx',tip:null,energy:'normal',pain:'none',short:false,warmup:false};
+startSession();
+const first=Store.d.session.plan[0];
+deferExercise();
+assert(Store.d.session.plan.at(-1)===first,'adiar exercício para o fim');
+normalizeSession();
+assert(Store.d.session.plan.at(-1)===first,'ordem dinâmica persistida');
+const alts=equivalentExercises();
+assert(alts.length>0,'equivalentes disponíveis');
+replaceCurrent(alts[0].name);
+assert(Store.d.session.plan[Store.d.session.i]===alts[0].name,'troca exercício');
 
 // Persistência primária
 Store.d.gymName='Academia Teste';
