@@ -465,7 +465,7 @@ let view='home',draft={w:null,eq:'gym',tip:null,energy:'normal',pain:'none',shor
 const $=s=>document.querySelector(s);
 const exList=s=>WORKOUTS[s.w][s.eq];
 function startSession(){const exs=WORKOUTS[draft.w][draft.eq];
- Store.d.session={id:'sess_'+Date.now(),w:draft.w,eq:draft.eq,tip:draft.tip,t:Date.now(),u:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name),prev=Array.isArray(l&&l.series)?l.series:[];const base=parseInt(e.reps)||10;return{name:e.name,kg:l&&l.kg||'',sets:Array.from({length:e.sets},(_,j)=>({kg:prev[j]?.kg??(l&&l.kg)||'',r:String(prev[j]?.r??(l&&l.reps&&l.reps[j])??base),d:0})),fb:'',rir:'',rest:e.rest,note:''}})};
+ Store.d.session={id:'sess_'+Date.now(),w:draft.w,eq:draft.eq,tip:draft.tip,t:Date.now(),u:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name),prev=Array.isArray(l&&l.series)?l.series:[];const base=parseInt(e.reps)||10;return{name:e.name,kg:l&&l.kg||'',sets:Array.from({length:e.sets},(_,j)=>({kg:(prev[j]?.kg ?? (l&&l.kg) ?? ''),r:String(prev[j]?.r??(l&&l.reps&&l.reps[j])??base),d:0})),fb:'',rir:'',rest:e.rest,note:''}})};
  Store.save();view='session';render()}
 function finishSession(knee){const s=Store.d.session;if(!s)return;
  const ex=exList(s).map((e,i)=>{const done=s.ex[i].sets.filter(x=>x.d),series=done.map(x=>({kg:x.kg??s.ex[i].kg??'',r:x.r||'—'}));const kg=series.map(x=>parseFloat(x.kg)||0).filter(Boolean).pop()||s.ex[i].kg||'';return{name:e.name,w:e.w,c:e.c,kg,reps:series.map(x=>x.r),series,fb:s.ex[i].fb,rir:s.ex[i].rir,note:s.ex[i].note||''}}).filter(e=>e.reps.length);
