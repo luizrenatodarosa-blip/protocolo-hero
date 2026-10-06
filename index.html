@@ -2,7 +2,7 @@
 <html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#07090f">
-<title>PROTOCOLO HERO · V1</title>
+<title>PROTOCOLO HERO · V2</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Protocolo Hero">
@@ -260,8 +260,55 @@ html{background:#05070c}body{overscroll-behavior-y:none}
 .exercise-position{display:flex;justify-content:center;margin:2px 0 10px;color:var(--mut);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700}
 @media(max-width:380px){.nav-workout{grid-template-columns:1fr 1.75fr}.nav-workout .next{font-size:16px}.nav-workout .prev{font-size:12px}}
 
+.save-indicator{position:fixed;right:12px;top:calc(10px + env(safe-area-inset-top,0px));z-index:50;padding:6px 10px;border-radius:999px;background:#0d1720dd;border:1px solid #3dffa055;color:#8dffc2;font:700 11px var(--s);letter-spacing:.12em;opacity:.72;pointer-events:none;transition:.2s}
+.save-indicator.saving{color:#b8c5e8;border-color:#6b7ba955}
+.save-indicator.error{color:#ff9aac;border-color:#ff4d6d88;background:#2a1018ee;opacity:1}
+@media(max-width:520px){.save-indicator{top:calc(8px + env(safe-area-inset-top,0px));right:8px}}
+
+/* ===== HERO V2 · TELA DE TREINO ===== */
+body.in-workout #app{padding-bottom:210px}
+.workout-context{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px}
+.workout-context strong{font:700 16px var(--f);color:#fff}
+.workout-context span{font-size:14px;color:var(--mut)}
+.exercise-hero-v2{padding:20px 18px 18px;overflow:hidden}
+.exercise-hero-v2 h2{font-size:clamp(32px,9vw,46px);line-height:1.02;margin:10px 0 4px;max-width:90%}
+.exercise-hero-v2 .exercise-number{position:absolute;right:12px;top:4px;font:700 76px/1 var(--f);color:transparent;-webkit-text-stroke:1px #27e0ff30}
+.set-progress{display:flex;gap:8px;margin:18px 0 10px}
+.set-progress button{width:48px;height:48px;border-radius:50%;border:2px solid var(--line);background:#0b0f1a;color:var(--mut);font:700 16px var(--f)}
+.set-progress button.done{background:linear-gradient(135deg,#3dffa0,#27e0ff);border-color:#3dffa0;color:#04101a}
+.set-progress button.current{border-color:var(--a);color:#fff;box-shadow:0 0 18px #27e0ff55}
+.active-set{margin-top:14px;padding:16px;border-radius:22px;background:linear-gradient(155deg,#101a2d,#090e19);border:1px solid #2d4167;box-shadow:inset 0 1px #ffffff10}
+.active-set-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.active-set-head b{font:700 22px var(--f)}
+.active-set-head span{font-size:13px;color:var(--mut)}
+.set-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.metric-control{background:#0a0f1a;border:1px solid #273553;border-radius:18px;padding:10px}
+.metric-control>span{display:block;text-align:center;font-size:12px;letter-spacing:.14em;color:var(--mut);font-weight:800}
+.metric-row{display:grid;grid-template-columns:52px 1fr 52px;gap:6px;align-items:center;margin-top:6px}
+.metric-row button{height:56px;border:0;border-radius:14px;background:#17213a;color:#fff;font:700 30px var(--f)}
+.metric-row input{width:100%;min-width:0;height:62px;border:0;background:transparent;color:#fff;text-align:center;font:700 48px/1 var(--f);outline:0}
+.metric-control.reps input{color:var(--a)}
+.primary-set{width:100%;min-height:68px;margin-top:14px;border:0;border-radius:19px;background:linear-gradient(100deg,#27e0ff,#58f0c8 62%,#3dffa0);color:#031018;font:700 22px var(--f);letter-spacing:.08em;text-transform:uppercase;box-shadow:0 10px 28px #27e0ff55}
+.primary-set:active{transform:scale(.98)}
+.completed-set-summary{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #ffffff0b;color:var(--mut);font-size:14px}
+.completed-set-summary b{color:#fff}
+.workout-dock{position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:14;width:min(520px,100%);padding:34px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(transparent,#07090f 30%,#07090f 100%)}
+.workout-dock-inner{display:grid;grid-template-columns:58px 1fr 58px;gap:9px;align-items:center;padding:8px;border:1px solid #2b3857;border-radius:22px;background:#0c1220ee;backdrop-filter:blur(14px);box-shadow:0 14px 40px #000b}
+.workout-dock button{min-height:58px;border-radius:16px;border:1px solid #2b3857;background:#151d31;color:#fff;font:700 22px var(--f)}
+.workout-dock button:disabled{opacity:.25}
+.workout-dock .next-main{background:linear-gradient(90deg,#27e0ff22,#17213a);font-size:16px;letter-spacing:.05em}
+.workout-dock small{display:block;color:var(--mut);font:600 11px var(--s);letter-spacing:.04em;margin-top:2px}
+.workout-dock .menu-dot{font-size:28px}
+.quick-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.quick-tools button{min-height:54px;border-radius:16px;border:1px solid #2b3857;background:#11192b;color:#dce7ff;font-weight:700}
+.all-sets-done{padding:16px;border-radius:20px;background:linear-gradient(135deg,#3dffa018,#27e0ff0c);border:1px solid #3dffa055;margin-top:14px}
+@media(max-width:380px){.set-controls{grid-template-columns:1fr}.exercise-hero-v2 h2{font-size:30px}.metric-row input{font-size:42px}}
+@media(prefers-reduced-motion:reduce){.primary-set:active{transform:none}}
+
+
+.machine-adjust{margin-top:8px;padding:10px 12px;border:1px solid #ffb52e33;border-radius:16px;background:#0b0f1a}.machine-adjust label{display:flex;align-items:center;gap:10px}.machine-adjust span{font-size:11px;letter-spacing:.15em;color:#ffcf7a;font-weight:800}.machine-adjust input{flex:1;min-width:0;background:#121a2c;border:1px solid #2d3856;border-radius:11px;color:#fff;padding:11px;font-size:16px}.guide-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0}.guide-tabs button{min-height:48px;border:1px solid #31415f;border-radius:12px;background:#0d1423;color:#dfe8ff;font-weight:800}.guide-panel{padding:14px;border-radius:16px;background:#0b111e;border:1px solid #263553}.guide-panel b{color:var(--a)}
 </style></head><body>
-<div id="app"></div><nav class="tabs" id="tabs"></nav><div id="ov"></div>
+<div id="save-indicator" class="save-indicator" aria-live="polite">SALVO</div><div id="app"></div><nav class="tabs" id="tabs"></nav><div id="ov"></div>
 <script>
 /* ================= DADOS (edite aqui) =================
  Formato: "nome|músculo|séries|reps|descanso(s)|como fazer|flags"  flags: w=com carga, c=core, k=perna/joelho */
@@ -279,6 +326,23 @@ C:{title:'Posterior + Glúteos + Panturrilha',sub:'Manutenção esportiva',core:
 gym:X(['Mesa flexora|Posterior de coxa|3|10–15|75|Controle a volta, sem tirar o quadril.|wk','Hip thrust|Glúteos|3|8–12|90|Queixo recolhido, contraia no topo.|wk','Romanian deadlift|Posterior · lombar|3|8–12|90|Quadril para trás, joelhos quase retos.|wk','Panturrilha na máquina|Panturrilha|3|12–20|60|Amplitude completa, pausa no topo.|wk','Remada leve|Costas|2|10–15|60|Carga moderada, foco na postura.|w','Elevação lateral|Ombros|2|12–20|60|Leve e controlada.|w','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','Suitcase hold|Core · lateral|3|30 s/lado|45|Um peso, tronco reto.|wc']),
 trx:X(['TRX Hamstring Curl · calcanhares nos estribos|Posterior de coxa|3|8–12|75|Calcanhares no TRX, suba o quadril e flexione.|k','TRX Glute Bridge · calcanhares nos estribos|Glúteos|3|10–15|75|Contraia no topo.|k','TRX Hip Hinge|Posterior · lombar|3|10–12|75|Quadril para trás, coluna neutra.|k','Elevação de panturrilha · apoio TRX|Panturrilha|3|12–20|60|Use o TRX só para equilíbrio.|k','TRX Low Row · leve|Costas|2|10–15|60|Menos inclinação, foco na postura.','TRX Y-Fly|Ombros|2|10–12|60|Devagar e controlado.','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','TRX Standing Anti-Rotation Press|Core · anti-rotação|3|10 /lado|45|Resista à rotação.|c']),
 db:X(['Romanian deadlift|Posterior · lombar|3|8–12|90|Halteres rente às pernas, quadril para trás.|wk','Hip thrust com halter|Glúteos|3|8–12|90|Halter sobre o quadril, contraia no topo.|wk','Levantamento romeno unilateral|Posterior · equilíbrio|3|8–10 /lado|75|Joelho levemente flexionado, apoie se precisar.|wk','Panturrilha com halteres|Panturrilha|3|12–20|60|Pausa no topo.|wk','Remada unilateral leve|Costas|2|10–15|60|Carga moderada.|w','Elevação lateral|Ombros|2|12–20|60|Leve e controlada.|w','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','Suitcase hold|Core · lateral|3|30 s/lado|45|Um halter, tronco reto.|wc'])}};
+const EXTRA_EXERCISES={
+ trx:X([
+  'TRX Push-up · flexão|Peito · tríceps|3|8–12|75|Corpo alinhado; controle a descida e empurre sem perder o tronco.',
+  'TRX Chest Fly · voador|Peito|3|8–12|75|Braços quase estendidos; abra com controle e feche usando o peitoral.',
+  'TRX Squat · agachamento básico|Pernas · glúteos|3|10–15|60|Use o TRX como apoio; respeite a amplitude confortável e o limite do joelho.|k',
+  'TRX Single-leg Squat · unilateral|Pernas · glúteos|3|8–10 /lado|75|Use apoio forte nas alças e amplitude curta; não ultrapasse o limite confortável do joelho.|k',
+  'TRX Jump Squat · agachamento com salto|Pernas · potência|2|6–8|90|Opcional de impacto. Só usar com liberação do profissional e sem dor.|k',
+  'TRX Forward Lunge · afundo|Pernas · glúteos|3|8 /lado|75|Passo curto e controlado; limite a flexão do joelho à amplitude orientada.|k',
+  'TRX Rollout|Core · anti-extensão|3|8–12|60|Braços avançam enquanto costelas e pelve permanecem controladas.|c',
+  'TRX Side Plank Rotation|Core · lateral|3|8 /lado|60|Prancha lateral estável; rode o tronco sem perder o alinhamento.|c'
+ ]),
+ gym:[],
+ db:[]
+};
+function exerciseLibrary(eq){const out=[],seen=new Set();for(const w of ['A','B','C'])for(const e of (WORKOUTS[w][eq]||[])){if(!seen.has(e.name)){seen.add(e.name);out.push(e)}}for(const e of (EXTRA_EXERCISES[eq]||[])){if(!seen.has(e.name)){seen.add(e.name);out.push(e)}}return out}
+function exerciseByName(eq,name){return exerciseLibrary(eq).find(e=>e.name===name)||null}
+function basePlan(w,eq){return (WORKOUTS[w]&&WORKOUTS[w][eq]||[]).map(e=>e.name)}
 const EQ={gym:'Academia completa',trx:'TRX',db:'Halteres'};
 const TRAVEL=[['gym','Academia completa'],['trx','TRX'],['db','Halteres'],['db+','TRX + halteres'],['trx0','Só peso corporal']];
 const TRAVEL_TIPS={db:'Halteres leves? Use mais repetições, cadência lenta (3-1-2) e exercícios unilaterais.','db+':'Puxadas e tríceps no TRX, o resto com halteres. Se os halteres forem leves: mais reps e cadência lenta.',trx0:'Peso corporal: use inclinação, pausa isométrica e cadência lenta para dificultar.'};
@@ -374,42 +438,62 @@ function motionSketch(name,phase){const k=guideKind(name);const head=(x,y,r=10)=
    body=`<circle class="sk-anchor" cx="110" cy="18" r="7"/>${head(110,88)}${line(110,98,110,128)}${line(110,128,92,148)}${line(110,128,128,148)}${line(110,108,90,90,'sk-limb')}${line(110,108,130,90,'sk-limb')}${line(38,150,182,150,'sk-ground')}`;
  }
  return `<svg viewBox="0 0 220 170" aria-hidden="true" role="img">${body}</svg>`;}
+function guideTab(k){
+ document.querySelectorAll('.guide-panel').forEach(x=>x.style.display='none');
+ const p=document.getElementById('guide-'+k);if(p)p.style.display='block';
+}
 function motionGuideHTML(e){
  const g=trxGuideFor(e.name),img=atlasImageFor(e.name);
- const visual=img?`<figure class="atlas-figure"><img src="${img}" alt="Sequência ilustrada do exercício ${escapeHTML(e.name)}: início, meio e fim"><figcaption class="atlas-caption">ATLAS TRX · sequência visual de início, meio e fim. Use a imagem como referência de posição e combine com as pistas técnicas abaixo.</figcaption></figure>`:'';
- if(!g)return `<div class="motion-guide"><div class="lbl">ATLAS TRX · COMO FAZER</div><h2>${escapeHTML(e.name)}</h2>${visual}<div class="guide-block"><p>${escapeHTML(e.tip)}</p></div><div class="guide-warn">Dor? Pare. Sem dor, com controle.</div><button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`;
- return `<div class="motion-guide"><div class="lbl">ATLAS TRX · PROTOCOLO HERO</div><h2>${escapeHTML(e.name)}</h2>${visual}<div class="guide-tags"><span>⚓ ${g.anchor}</span><span>↕ ${g.strap}</span><span>✋ ${g.grip}</span></div><div class="motion-cue"><span>◎</span><div><b>PISTA RÁPIDA</b><br>${g.cue}</div></div><div class="motion-strip"><div class="motion-step"><i>1</i><b>INÍCIO</b><p>${g.steps[0]}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>2</i><b>MOVIMENTO</b><p>${g.steps[1]}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>3</i><b>FINAL</b><p>${g.steps[2]}</p></div></div><div class="guide-block"><small>POSIÇÃO</small><p>${g.setup}</p></div><div class="guide-block"><small>EVITE</small><p>${g.avoid}</p></div><div class="guide-scale"><div><b>↓ MAIS FÁCIL</b>${g.easy}</div><div><b>↑ MAIS DIFÍCIL</b>${g.hard}</div></div><div class="source-note">Atlas visual fornecido no material “ATLAS TRX · PROJETO HERO”.</div><div class="guide-warn">Se houver dor ou instabilidade fora do esperado, interrompa o exercício.</div><button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`
+ const visual=img?`<figure class="atlas-figure"><img src="${img}" alt="Sequência ilustrada do exercício ${escapeHTML(e.name)}: início, meio e fim"><figcaption class="atlas-caption">ATLAS TRX · início, meio e fim.</figcaption></figure>`:'';
+ const tip=g?g.cue:e.tip,avoid=g?g.avoid:'Evite compensações, impulso e amplitude que cause desconforto.',easy=g?g.easy:specificHint('e'),hard=g?g.hard:specificHint('h');
+ return `<div class="motion-guide"><div class="lbl">${g?'ATLAS TRX · PROTOCOLO HERO':'COMO FAZER · PROTOCOLO HERO'}</div><h2>${escapeHTML(e.name)}</h2>${visual}
+ ${g?`<div class="guide-tags"><span>⚓ ${escapeHTML(g.anchor)}</span><span>↕ ${escapeHTML(g.strap)}</span><span>✋ ${escapeHTML(g.grip)}</span></div><div class="motion-strip"><div class="motion-step"><i>1</i><b>INÍCIO</b><p>${escapeHTML(g.steps[0])}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>2</i><b>MEIO</b><p>${escapeHTML(g.steps[1])}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>3</i><b>FIM</b><p>${escapeHTML(g.steps[2])}</p></div></div>`:''}
+ <div class="guide-tabs"><button onclick="guideTab('tip')">DICA</button><button onclick="guideTab('err')">ERROS</button><button onclick="guideTab('var')">VARIAÇÕES</button></div>
+ <div id="guide-tip" class="guide-panel"><b>PISTA RÁPIDA</b><p>${escapeHTML(tip)}</p>${g?`<p>${escapeHTML(g.setup)}</p>`:''}</div>
+ <div id="guide-err" class="guide-panel" style="display:none"><b>EVITE</b><p>${escapeHTML(avoid)}</p></div>
+ <div id="guide-var" class="guide-panel" style="display:none"><b>MAIS FÁCIL</b><p>${escapeHTML(easy)}</p><b>MAIS DIFÍCIL</b><p>${escapeHTML(hard)}</p></div>
+ ${e.k?'<div class="guide-warn">Joelho: respeite o limite de amplitude orientado. Se houver dor, interrompa.</div>':'<div class="guide-warn">Se houver dor ou instabilidade fora do esperado, interrompa o exercício.</div>'}
+ <button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`;
 }
 
 /* ================= ARMAZENAMENTO ================= */
+function markSave(state){const el=document.getElementById&&document.getElementById('save-indicator');if(!el)return;el.className='save-indicator '+(state==='error'?'error':state==='saving'?'saving':'');el.textContent=state==='error'?'ERRO AO SALVAR':state==='saving'?'SALVANDO…':'SALVO'}
 const Store={k:'hero_v1',d:null,hadLocal:false,storageOK:true,
  load(){let raw=null;try{raw=localStorage.getItem(this.k);this.hadLocal=!!raw;if(raw)this.d=JSON.parse(raw)}catch(e){this.storageOK=false;console.warn('[PROTOCOLO HERO] localStorage indisponível',e)}this.d=this.d||{history:[],session:null,gymName:'Minha academia'};},
  openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return resolve(null);const req=indexedDB.open('protocolo_hero_db',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('kv'))db.createObjectStore('kv')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})},
  backup(payload){this.openDB().then(db=>{if(!db)return;const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(payload,'state')}).catch(e=>console.warn('[PROTOCOLO HERO] backup IndexedDB falhou',e))},
- save(){this.d._updatedAt=Date.now();const payload=JSON.stringify(this.d);let ok=false;try{localStorage.setItem(this.k,payload);ok=localStorage.getItem(this.k)===payload;this.storageOK=ok}catch(e){this.storageOK=false;console.warn('[PROTOCOLO HERO] falha ao salvar localStorage',e)}this.backup(payload);return ok},
+ save(){this.d._updatedAt=Date.now();const payload=JSON.stringify(this.d);let ok=false;markSave('saving');try{localStorage.setItem(this.k,payload);ok=localStorage.getItem(this.k)===payload;this.storageOK=ok}catch(e){this.storageOK=false;console.warn('[PROTOCOLO HERO] falha ao salvar localStorage',e)}this.backup(payload);markSave(ok?'saved':'error');return ok},
  recover(){if(this.hadLocal)return Promise.resolve(false);return this.openDB().then(db=>new Promise(resolve=>{if(!db)return resolve(false);const tx=db.transaction('kv','readonly');const req=tx.objectStore('kv').get('state');req.onsuccess=()=>{try{if(!req.result)return resolve(false);const data=JSON.parse(req.result);if(!data||typeof data!=='object')return resolve(false);this.d=data;ensureStoreShape();try{localStorage.setItem(this.k,JSON.stringify(this.d));this.storageOK=true}catch(e){this.storageOK=false}resolve(true)}catch(e){resolve(false)}};req.onerror=()=>resolve(false)})).catch(()=>false)}
 };
+try{const legacy=localStorage.getItem('hero_v1');if(legacy&&!localStorage.getItem('hero_v1_pre_v2'))localStorage.setItem('hero_v1_pre_v2',legacy)}catch(e){}
 Store.load();
 function ensureStoreShape(){
  Store.d=Store.d&&typeof Store.d==='object'?Store.d:{};
  Store.d.history=Array.isArray(Store.d.history)?Store.d.history:[];
  Store.d.runs=Array.isArray(Store.d.runs)?Store.d.runs:[];
  Store.d.padel=Array.isArray(Store.d.padel)?Store.d.padel:[];
- Store.d.settings=Store.d.settings||{shortMode:false,warmup:true};
+ Store.d.settings=Store.d.settings||{shortMode:false,warmup:true,stepGym:5,stepPlate:2.5,stepDb:2,sound:true,gymMode:false,leftHand:false,humor:true};
+ Store.d.machines=Store.d.machines&&typeof Store.d.machines==='object'?Store.d.machines:{};
+ Store.d.adjustments=Store.d.adjustments&&typeof Store.d.adjustments==='object'?Store.d.adjustments:{};
+ Store.d.exerciseRest=Store.d.exerciseRest&&typeof Store.d.exerciseRest==='object'?Store.d.exerciseRest:{};
  Store.d.gymName=Store.d.gymName||'Minha academia';
- Store.d.version='1.0.3';
+ Store.d.version='2.0.0-beta.2';
 }
 ensureStoreShape();
 function makeExerciseState(e,old){
  old=old&&typeof old==='object'?old:{};
  const oldSets=Array.isArray(old.sets)?old.sets:[];
- return {name:e.name,kg:old.kg??'',sets:Array.from({length:e.sets},(_,j)=>({r:oldSets[j]?.r??'',d:oldSets[j]?.d?1:0})),fb:['easy','good','hard'].includes(old.fb)?old.fb:'',rir:['0','1','2','3+'].includes(old.rir)?old.rir:'',rest:Number.isFinite(+old.rest)&&+old.rest>=15?+old.rest:e.rest};
+ const baseKg=old.kg??'';
+ return {name:e.name,kg:baseKg,sets:Array.from({length:e.sets},(_,j)=>({kg:oldSets[j]?.kg??baseKg,r:oldSets[j]?.r??'',d:oldSets[j]?.d?1:0})),fb:['easy','good','hard'].includes(old.fb)?old.fb:'',rir:['0','1','2','3+'].includes(old.rir)?old.rir:'',rest:Number.isFinite(+old.rest)&&+old.rest>=15?+old.rest:(Number.isFinite(+Store.d.exerciseRest[e.name])?+Store.d.exerciseRest[e.name]:e.rest),note:typeof old.note==='string'?old.note:''};
 }
 function normalizeSession(){
  const s=Store.d.session;
  if(!s)return true;
  if(!WORKOUTS[s.w]||!WORKOUTS[s.w][s.eq]){Store.d.session=null;Store.save();return false}
- const exs=WORKOUTS[s.w][s.eq],old=Array.isArray(s.ex)?s.ex:[];
+ if(!Array.isArray(s.plan)||!s.plan.length)s.plan=basePlan(s.w,s.eq);
+ s.plan=s.plan.filter(n=>!!exerciseByName(s.eq,n));
+ if(!s.plan.length)s.plan=basePlan(s.w,s.eq);
+ const exs=exList(s),old=Array.isArray(s.ex)?s.ex:[];
  s.i=Math.max(0,Math.min(exs.length-1,Number.isInteger(s.i)?s.i:0));
  const byName=new Map(old.filter(x=>x&&typeof x==='object'&&x.name).map(x=>[x.name,x]));
  s.ex=exs.map((e,i)=>makeExerciseState(e,byName.get(e.name)||old[i]));
@@ -452,19 +536,19 @@ const FEEL_PADEL={loose:'🙂 Solto',normal:'🎯 Normal',tough:'🥵 Puxado'};
 function escapeHTML(s){return String(s==null?'':s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function knee30(){const since=Date.now()-30*864e5,c={normal:0,little:0,more:0};allKnees().filter(x=>x.t>=since).forEach(x=>c[x.knee]=(c[x.knee]||0)+1);return c}
 function weeklyLoad(){let p=0;inWeek(0).forEach(h=>p+=mins(h.dur));runsWeek().forEach(r=>p+=r.dur*({easy:.8,moderate:1,hard:1.25}[r.eff]||1));padelWeek().forEach(r=>p+=r.dur*({easy:.8,moderate:1,hard:1.25}[r.eff]||1));let level=p<120?1:p<240?2:p<390?3:p<540?4:5;let label=['','Leve','Moderada','Boa carga','Alta','Muito alta'][level];return{points:p,level,label}}
-function footerSign(){return '<div class="footer-sign">PROTOCOLO HERO · V1.1 · <b>Luiz Renato da Rosa</b></div>'}
+function footerSign(){return '<div class="footer-sign">PROTOCOLO HERO · V2 · <b>Luiz Renato da Rosa</b></div>'}
 function maxRunBefore(id){return Math.max(0,...RH().filter(r=>r.id!==id).map(r=>r.dist||0))}
 function maxKgBefore(name,id){let m=0;H().forEach(h=>{if(h.id===id)return;h.ex.forEach(e=>{if(e.name===name)m=Math.max(m,parseFloat(e.kg)||0)})});return m}
 
 /* ================= SESSÃO ================= */
 let view='home',draft={w:null,eq:'gym',tip:null,energy:'normal',pain:'none',short:false,warmup:true},timer=null,runDraft={type:'easy',shoe:'plain',eff:'moderate',feel:'good',knee:'normal',energy:'normal',pain:'none'},padelDraft={eff:'moderate',feel:'normal',knee:'normal',energy:'normal',pain:'none'};
 const $=s=>document.querySelector(s);
-const exList=s=>WORKOUTS[s.w][s.eq];
+const exList=s=>{const names=Array.isArray(s&&s.plan)&&s.plan.length?s.plan:basePlan(s.w,s.eq);return names.map(n=>exerciseByName(s.eq,n)).filter(Boolean)};
 function startSession(){const exs=WORKOUTS[draft.w][draft.eq];
- Store.d.session={w:draft.w,eq:draft.eq,tip:draft.tip,t:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name);return{kg:l&&l.kg||'',sets:Array.from({length:e.sets},()=>({r:'',d:0})),fb:'',rir:'',rest:e.rest}})};
+ Store.d.session={id:'sess_'+Date.now(),w:draft.w,eq:draft.eq,plan:exs.map(e=>e.name),tip:draft.tip,t:Date.now(),u:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name),prev=Array.isArray(l&&l.series)?l.series:[];const base=parseInt(e.reps)||10;return{name:e.name,kg:l&&l.kg||'',sets:Array.from({length:e.sets},(_,j)=>({kg:(prev[j]?.kg ?? (l&&l.kg) ?? ''),r:String(prev[j]?.r??(l&&l.reps&&l.reps[j])??base),d:0})),fb:'',rir:'',rest:e.rest,note:''}})};
  Store.save();view='session';render()}
 function finishSession(knee){const s=Store.d.session;if(!s)return;
- const ex=exList(s).map((e,i)=>({name:e.name,w:e.w,c:e.c,kg:s.ex[i].kg,reps:s.ex[i].sets.filter(x=>x.d).map(x=>x.r||'—'),fb:s.ex[i].fb,rir:s.ex[i].rir})).filter(e=>e.reps.length);
+ const ex=exList(s).map((e,i)=>{const done=s.ex[i].sets.filter(x=>x.d),series=done.map(x=>({kg:x.kg??s.ex[i].kg??'',r:x.r||'—'}));const kg=series.map(x=>parseFloat(x.kg)||0).filter(Boolean).pop()||s.ex[i].kg||'';return{name:e.name,w:e.w,c:e.c,kg,reps:series.map(x=>x.r),series,fb:s.ex[i].fb,rir:s.ex[i].rir,note:s.ex[i].note||''}}).filter(e=>e.reps.length);
  const rec={id:Date.now(),t:Date.now(),w:s.w,eq:s.eq,dur:Math.round((Date.now()-s.t)/1000),ex,knee:knee||'',sets:ex.reduce((a,e)=>a+e.reps.length,0),check:s.check||null,short:!!s.short};
  H().unshift(rec);Store.d.session=null;Store.save();summary(rec)}
 function summary(r){const fbs=r.ex.map(e=>e.fb).filter(Boolean);const feel={easy:'🙂 Fácil',good:'😤 Boa carga',hard:'💀 Pesado'}[fbs.sort((a,b)=>fbs.filter(x=>x===b).length-fbs.filter(x=>x===a).length)[0]]||'—';
@@ -487,9 +571,12 @@ function rest(sec){clearInterval(timer);let endT=Date.now()+sec*1000,tot=sec;con
 /* ---- ações usadas pelos botões (funções globais, sem lógica solta no HTML) ---- */
 function ask(msg,yes){modal(`<h3>${msg}</h3><div class="grid"><button class="btn g" onclick="closeModal()">Cancelar</button><button class="btn" onclick="closeModal();${yes}">Confirmar</button></div>`)}
 function goHome(){view='home';render()}
+function discardSession(){clearInterval(timer);timer=null;Store.d.session=null;Store.save();closeModal();view='home';render()}
+function sessionMenu(){const s=Store.d.session;if(!s)return;modal(`<h3>O que você quer fazer?</h3><p class="hrow">Seu histórico anterior fica intacto.</p><button class="btn" onclick="closeModal()">CONTINUAR TREINO</button><button class="btn g" onclick="closeModal();goHome()">SAIR E RETOMAR DEPOIS</button><button class="btn g" style="color:var(--bad)" onclick="confirmDiscard()">CANCELAR ESTA SESSÃO</button>`,'Sessão em andamento')}
+function confirmDiscard(){modal(`<h3>Cancelar esta sessão?</h3><p class="hrow">Somente o treino em andamento será descartado. Nada do seu histórico será apagado.</p><button class="btn" onclick="closeModal()">NÃO, CONTINUAR</button><button class="btn g" style="color:var(--bad)" onclick="discardSession()">SIM, DESCARTAR SESSÃO</button>`,'Confirmação')}
 function delH(id){Store.d.history=H().filter(x=>x.id!==id);Store.save();render()}
-function adjRest(d){const s=Store.d.session,st=s.ex[s.i];st.rest=Math.max(15,st.rest+d);Store.save();render()}
-function hint(k){const s=Store.d.session;modal(`<h3>${k==='e'?'Mais fácil':'Mais difícil'}</h3><p>${(k==='e'?EASY:HARD)[s.eq]}</p>`)}
+function adjRest(d){const s=Store.d.session,st=s.ex[s.i],e=exList(s)[s.i];st.rest=Math.max(15,st.rest+d);Store.d.exerciseRest[e.name]=st.rest;Store.save();render()}
+function hint(k){modal(`<h3>${k==='e'?'Mais fácil':'Mais difícil'}</h3><p>${escapeHTML(specificHint(k))}</p>`)}
 let navBusy=false;
 function goExercise(d){
  try{
@@ -510,6 +597,61 @@ function goExercise(d){
  }
 }
 function stepEx(d){goExercise(d)}
+function estimateRemaining(s){try{const exs=exList(s);let sec=0;for(let j=s.i;j<exs.length;j++){const st=s.ex[j];const pending=st&&Array.isArray(st.sets)?st.sets.filter(x=>!x.d).length:exs[j].sets;sec+=pending*(55+(st?.rest||exs[j].rest||60));}return Math.max(1,Math.round(sec/60))}catch(e){return 1}}
+function currentSetIndex(st){const i=st.sets.findIndex(x=>!x.d);return i<0?st.sets.length:i}
+function stepSizeFor(s,e){if(!e.w)return 1;if(s.eq==='gym')return Number(Store.d.settings.stepGym)||5;if(s.eq==='db')return Number(Store.d.settings.stepDb)||2;return 1}
+function setSeriesValue(field,value){
+ const s=Store.d.session;if(!s)return;const st=s.ex[s.i],idx=Math.min(currentSetIndex(st),st.sets.length-1),set=st.sets[idx];
+ if(field==='kg'){set.kg=String(value);st.kg=String(value)}else set.r=String(value);
+ s.u=Date.now();Store.save();
+}
+function adjustActive(field,delta){
+ const s=Store.d.session;if(!s)return;const st=s.ex[s.i],idx=currentSetIndex(st);if(idx>=st.sets.length)return;
+ const set=st.sets[idx],cur=parseFloat(field==='kg'?set.kg:set.r)||0,next=Math.max(0,Math.round((cur+delta)*10)/10);
+ setSeriesValue(field,next);
+ const el=document.getElementById(field==='kg'?'activeKg':'activeReps');if(el)el.value=next;
+}
+function completeActiveSet(){
+ const s=Store.d.session;if(!s)return;const st=s.ex[s.i],idx=currentSetIndex(st);if(idx>=st.sets.length)return;
+ const set=st.sets[idx];if(!set.r)set.r=String(parseInt(exList(s)[s.i].reps)||1);set.d=1;
+ const next=st.sets[idx+1];if(next){if(set.kg)next.kg=set.kg;if(set.r)next.r=set.r}
+ s.u=Date.now();Store.save();
+ const sec=st.rest;render();rest(sec);
+}
+function jumpToSet(j){const s=Store.d.session;if(!s)return;const st=s.ex[s.i];if(!st.sets[j])return;if(st.sets[j].d){st.sets[j].d=0;Store.save();render()}}
+
+function muscleKey(e){return String(e&&e.muscle||'').split(/[·\/]/)[0].trim().toLowerCase()}
+function equivalentExercises(){
+ const s=Store.d.session,e=exList(s)[s.i],key=muscleKey(e),used=new Set(s.plan||[]);
+ let pool=exerciseLibrary(s.eq).filter(x=>x.name!==e.name&&!used.has(x.name));
+ pool.sort((a,b)=>(muscleKey(a)===key?0:1)-(muscleKey(b)===key?0:1));
+ return pool.slice(0,2);
+}
+function deferExercise(){
+ const s=Store.d.session;if(!s||s.i>=s.plan.length-1){closeModal();return}
+ const name=s.plan.splice(s.i,1)[0],state=s.ex.splice(s.i,1)[0];s.plan.push(name);s.ex.push(state);s.u=Date.now();Store.save();closeModal();render();
+}
+function replaceCurrent(name){
+ const s=Store.d.session;if(!s)return;const e=exerciseByName(s.eq,name);if(!e)return;
+ s.plan[s.i]=name;s.ex[s.i]=makeExerciseState(e,null);s.u=Date.now();Store.save();closeModal();render();
+}
+function swapExerciseUI(){
+ const list=equivalentExercises();if(!list.length){modal('<h3>Sem equivalente agora</h3><p class="hrow">Não encontrei outra opção adequada neste equipamento sem repetir o treino.</p>','Trocar exercício');return}
+ modal(`<h3>Trocar por equivalente</h3><p class="hrow">Mesmo equipamento. O exercício novo entra exatamente nesta posição.</p>${list.map(e=>`<button class="opt" onclick="replaceCurrent('${e.name.replace(/'/g,"\\'")}')"><b>${escapeHTML(e.name)}</b><br><small>${escapeHTML(e.muscle)}</small></button>`).join('')}`,'Trocar exercício');
+}
+function specificHint(kind){
+ const s=Store.d.session,e=exList(s)[s.i],g=trxGuideFor(e.name);
+ if(g)return kind==='e'?g.easy:g.hard;
+ if(kind==='e'){
+  if(e.w)return 'Reduza a carga mantendo a mesma técnica e amplitude confortável. '+e.tip;
+  return 'Reduza a amplitude ou simplifique a alavanca. '+e.tip;
+ }
+ if(e.w)return 'Quando completar o topo da faixa com controle, aumente um pequeno passo de carga na próxima série ou sessão.';
+ return 'Aumente gradualmente tempo, controle ou alavanca sem sacrificar a técnica.';
+}
+function saveAdjustment(v){const s=Store.d.session,e=exList(s)[s.i];Store.d.adjustments[e.name]=String(v||'').trim();Store.save()}
+function setNote(){const s=Store.d.session,st=s.ex[s.i];modal(`<h3>Nota deste exercício</h3><textarea id="exerciseNote" maxlength="240" style="width:100%;min-height:120px;background:#0b0f1a;color:var(--tx);border:1px solid var(--line);border-radius:14px;padding:12px;font:16px var(--s)">${escapeHTML(st.note||'')}</textarea><button class="btn" onclick="st=Store.d.session.ex[Store.d.session.i];st.note=document.querySelector('#exerciseNote').value;Store.d.session.u=Date.now();Store.save();closeModal();render()">SALVAR NOTA</button>`,'Exercício')}
+function exerciseMenu(){const s=Store.d.session,e=exList(s)[s.i];modal(`<h3>${escapeHTML(e.name)}</h3><p class="hrow">Escolha uma ação. Nada altera seu histórico anterior.</p><button class="btn g" onclick="swapExerciseUI()">⇄ TROCAR POR EQUIVALENTE</button><button class="btn g" onclick="deferExercise()">↧ ADIAR PARA O FIM</button><button class="btn g" onclick="setNote()">✎ NOTA</button><div class="grid"><button class="btn g" onclick="adjRest(-15);closeModal()">−15 s</button><button class="btn g" onclick="adjRest(15);closeModal()">+15 s</button></div>`,'Opções do exercício')}
 
 /* ================= INTERFACE ================= */
 function closeModal(){document.body.classList.remove('modal-open');$('#ov').innerHTML=''}
@@ -517,11 +659,11 @@ function modal(html,kicker='Detalhes'){document.body.classList.add('modal-open')
 function setTab(){const items=[['home','⌂','Início',''],['pick','⌁','Força','force'],['run','⌁','Corrida','run'],['padel','◉','Padel','padel'],['more','☰','Mais','']];$('#tabs').innerHTML=items.map(([v,i,t,c])=>`<button class="${view===v?'on '+c:''}" onclick="if('${v}'==='pick'){draft.w=nextWorkout();draft.eq=(H()[0]&&H()[0].eq)||'gym'}view='${v}';render()"><span>${i}</span>${t}</button>`).join('');$('#tabs').style.display=view==='session'?'none':'flex'}
 let lastKey='';
 function recoverSession(){normalizeSession();view=Store.d.session?'session':'home';render()}
-function resetBrokenSession(){Store.d.session=null;Store.save();view='home';render()}
-function render(){try{if(view==='session'){if(!Store.d.session||!normalizeSession())view='home'}setTab();const fn=({home:vHome,pick:vPick,session:vSession,hist:vHist,prog:vProg,run:vRun,padel:vPadel,more:vMore,about:vAbout})[view]||vHome;fn();const key=view+':'+(view==='session'&&Store.d.session?Store.d.session.i:'');if(key!==lastKey){window.scrollTo(0,0);lastKey=key}}catch(err){console.error('[PROTOCOLO HERO] falha de renderização',err);closeModal();$('#app').innerHTML=`<div class="logo"><i></i>PROTOCOLO HERO</div><div class="card recovery-card"><div class="lbl">MODO DE RECUPERAÇÃO</div><h2>O treino não vai ficar travado.</h2><p>Detectei dados de sessão incompatíveis. Posso reparar a sessão sem apagar seu histórico.</p><button class="btn" onclick="recoverSession()">REPARAR E CONTINUAR</button><button class="btn g" onclick="resetBrokenSession()">ENCERRAR ESTA SESSÃO</button></div>`;setTab()}}
+function resetBrokenSession(){discardSession()}
+function render(){try{if(view==='session'){if(!Store.d.session||!normalizeSession())view='home'}if(view!=='session')document.body.classList.remove('in-workout');setTab();const fn=({home:vHome,pick:vPick,session:vSession,hist:vHist,prog:vProg,run:vRun,padel:vPadel,more:vMore,about:vAbout})[view]||vHome;fn();const key=view+':'+(view==='session'&&Store.d.session?Store.d.session.i:'');if(key!==lastKey){window.scrollTo(0,0);lastKey=key}}catch(err){console.error('[PROTOCOLO HERO] falha de renderização',err);closeModal();$('#app').innerHTML=`<div class="logo"><i></i>PROTOCOLO HERO</div><div class="card recovery-card"><div class="lbl">MODO DE RECUPERAÇÃO</div><h2>O treino não vai ficar travado.</h2><p>Detectei dados de sessão incompatíveis. Posso reparar a sessão sem apagar seu histórico.</p><button class="btn" onclick="recoverSession()">REPARAR E CONTINUAR</button><button class="btn g" onclick="resetBrokenSession()">ENCERRAR ESTA SESSÃO</button></div>`;setTab()}}
 
 function vHome(){const n=nextWorkout(),W=WORKOUTS[n],wk=inWeek(0).length,core=inWeek(0).filter(h=>safeEx(h).some(e=>e&&e.c)).length,l=H()[0],s=Store.d.session,rw=runsWeek(),pw=padelWeek(),load=weeklyLoad();const easyDone=rw.some(r=>r.type==='easy'),longDone=rw.some(r=>r.type==='long'),km=rw.reduce((a,r)=>a+(parseFloat(r.dist)||0),0);
- $('#app').innerHTML=`<div class="logo"><i></i><strong>PROTOCOLO HERO</strong></div><div class="brand-lockup"><div class="brand-kicker">TREINO INTEGRADO</div><div class="brand-name">HERO</div><div class="brand-sub">FORÇA · CORRIDA · PADEL · CORE</div></div><div class="card hero-v1" data-l="${n}"><div class="mission-eyebrow">PRÓXIMA MISSÃO · FORÇA</div><h2>TREINO ${n}</h2><div class="hrow">${W.title}<br>${W.sub}</div>${s?`<button class="btn o" onclick="view='session';render()">RETOMAR TREINO ${s.w}</button>`:`<button class="btn" onclick="draft={w:'${n}',eq:'${(l&&l.eq)||'gym'}',tip:null,energy:'normal',pain:'none',short:false,warmup:true};view='pick';render()">INICIAR MISSÃO →</button>`}</div><div class="weekline"><div class="week-pill force"><small>FORÇA</small><b>${wk}/3</b></div><div class="week-pill run"><small>CORRIDA</small><b>${rw.length}/2</b></div><div class="week-pill core"><small>CORE</small><b>${core}/3</b></div><div class="week-pill padel"><small>PADEL</small><b>${pw.length}</b></div></div><div class="load-card"><div class="load-bars">${[1,2,3,4,5].map(i=>`<i class="${i<=load.level?'on':''}"></i>`).join('')}</div><div class="load-copy"><small>Carga geral da semana</small><b>${load.label}</b></div><span class="hrow">${Math.round(load.points)} pts*</span></div><div class="launch-grid"><div class="launch run"><div><div class="icon">🏃</div><div class="lbl">CORRIDA</div><strong>${km.toFixed(1)} km</strong><div class="mission-strip"><span class="mission-chip ${easyDone?'ok':''}">Fácil ${easyDone?'✓':'○'}</span><span class="mission-chip ${longDone?'ok':''}">Longão ${longDone?'✓':'○'}</span></div></div><button onclick="view='run';render()">+ REGISTRAR</button></div><div class="launch padel"><div><div class="icon">🎾</div><div class="lbl">PADEL</div><strong>${pw.length}</strong><div class="hrow">sessões nesta semana</div></div><button onclick="view='padel';render()">+ REGISTRAR</button></div></div><div class="card section"><div class="section-title"><span class="lbl">🎯 PROJETO CINTURA</span><span class="mini">core inteligente</span></div><h3 style="font-size:20px;margin:4px 0">${W.core}</h3><div class="hrow">Core forte: sim. Queimar gordura só da barriga: infelizmente o corpo não recebeu esse recurso.</div></div>${kneeAlertAll()?'<div class="msg">Considere reduzir amplitude/carga e conversar com o profissional que acompanha seu joelho.</div>':''}${footerSign()}<div class="legal-note">*Indicador interno de carga baseado apenas na duração e percepção registrada. Não é medida fisiológica.</div>`}
+ $('#app').innerHTML=`<div class="logo"><i></i><strong>PROTOCOLO HERO</strong></div><div class="brand-lockup"><div class="brand-kicker">TREINO INTEGRADO</div><div class="brand-name">HERO</div><div style="display:inline-block;margin:8px 0 4px;padding:6px 10px;border-radius:999px;border:1px solid #27e0ff66;background:#27e0ff12;color:#bff4ff;font-size:12px;font-weight:800;letter-spacing:.12em">VERSÃO 2 · BETA</div><div class="brand-sub">FORÇA · CORRIDA · PADEL · CORE</div></div><div class="card hero-v1" data-l="${n}"><div class="mission-eyebrow">PRÓXIMA MISSÃO · FORÇA</div><h2>TREINO ${n}</h2><div class="hrow">${W.title}<br>${W.sub}</div>${s?`<div class="msg c">Treino ${s.w} em andamento · exercício ${(s.i||0)+1}</div><button class="btn o" onclick="view='session';render()">RETOMAR TREINO ${s.w}</button><button class="btn g" onclick="confirmDiscard()">CANCELAR SESSÃO</button>`:`<button class="btn" onclick="draft={w:'${n}',eq:'${(l&&l.eq)||'gym'}',tip:null,energy:'normal',pain:'none',short:false,warmup:true};view='pick';render()">INICIAR MISSÃO →</button>`}</div><div class="weekline"><div class="week-pill force"><small>FORÇA</small><b>${wk}/3</b></div><div class="week-pill run"><small>CORRIDA</small><b>${rw.length}/2</b></div><div class="week-pill core"><small>CORE</small><b>${core}/3</b></div><div class="week-pill padel"><small>PADEL</small><b>${pw.length}</b></div></div><div class="load-card"><div class="load-bars">${[1,2,3,4,5].map(i=>`<i class="${i<=load.level?'on':''}"></i>`).join('')}</div><div class="load-copy"><small>Carga geral da semana</small><b>${load.label}</b></div><span class="hrow">${Math.round(load.points)} pts*</span></div><div class="launch-grid"><div class="launch run"><div><div class="icon">🏃</div><div class="lbl">CORRIDA</div><strong>${km.toFixed(1)} km</strong><div class="mission-strip"><span class="mission-chip ${easyDone?'ok':''}">Fácil ${easyDone?'✓':'○'}</span><span class="mission-chip ${longDone?'ok':''}">Longão ${longDone?'✓':'○'}</span></div></div><button onclick="view='run';render()">+ REGISTRAR</button></div><div class="launch padel"><div><div class="icon">🎾</div><div class="lbl">PADEL</div><strong>${pw.length}</strong><div class="hrow">sessões nesta semana</div></div><button onclick="view='padel';render()">+ REGISTRAR</button></div></div><div class="card section"><div class="section-title"><span class="lbl">🎯 PROJETO CINTURA</span><span class="mini">core inteligente</span></div><h3 style="font-size:20px;margin:4px 0">${W.core}</h3><div class="hrow">Core forte: sim. Queimar gordura só da barriga: infelizmente o corpo não recebeu esse recurso.</div></div>${kneeAlertAll()?'<div class="msg">Considere reduzir amplitude/carga e conversar com o profissional que acompanha seu joelho.</div>':''}${footerSign()}<div class="legal-note">*Indicador interno de carga baseado apenas na duração e percepção registrada. Não é medida fisiológica.</div>`}
 function vRun(){const d=runDraft;$('#app').innerHTML=`<div class="mode-head run"><div><div class="lbl">RUN MODE</div><div class="mode-title">CORRIDA</div></div><span style="font-size:32px">🏃</span></div><div class="card form-card runform"><div class="lbl">REGISTRAR SESSÃO</div><label><span>Tipo de corrida</span><div class="segment run">${[['easy','Fácil'],['long','Longão'],['quality','Qualidade']].map(([k,t])=>`<button class="${d.type===k?'on':''}" onclick="runDraft.type='${k}';render()">${t}</button>`).join('')}</div></label><div class="checkin"><div class="checkin-box"><small>Energia antes</small><div class="microseg">${[['low','😵'],['normal','🙂'],['high','⚡']].map(([k,t])=>`<button class="${d.energy===k?'on':''}" onclick="runDraft.energy='${k}';render()">${t}</button>`).join('')}</div></div><div class="checkin-box"><small>Algo incomodando?</small><div class="microseg">${[['none','Não'],['yes','Sim']].map(([k,t])=>`<button class="${d.pain===k?'on':''}" onclick="runDraft.pain='${k}';render()">${t}</button>`).join('')}</div></div></div><label><span>Distância (km)</span><input class="field" id="runDist" type="number" step="0.1" inputmode="decimal" placeholder="Ex.: 7,5" oninput="runDraft.dist=this.value;updatePace()" value="${d.dist||''}"></label><label><span>Duração (minutos)</span><input class="field" id="runDur" type="number" step="1" inputmode="numeric" placeholder="Ex.: 42" oninput="runDraft.dur=this.value;updatePace()" value="${d.dur||''}"></label><div class="pace-box">Ritmo médio <b id="paceNow">${pace(d.dist,d.dur)}</b></div><label><span>Tênis</span><div class="segment two run">${[['plain','👟 Sem placa'],['plate','👟 Com placa']].map(([k,t])=>`<button class="${d.shoe===k?'on':''}" onclick="runDraft.shoe='${k}';render()">${t}</button>`).join('')}</div></label><label><span>Esforço percebido</span><div class="segment run">${[['easy','Leve'],['moderate','Moderado'],['hard','Forte']].map(([k,t])=>`<button class="${d.eff===k?'on':''}" onclick="runDraft.eff='${k}';render()">${t}</button>`).join('')}</div></label><label><span>Sensação da corrida</span><div class="segment four run">${[['light','🪶'],['good','🎯'],['strong','🔥'],['tough','🧱']].map(([k,t])=>`<button class="${d.feel===k?'on':''}" onclick="runDraft.feel='${k}';render()">${t}<br><small>${FEEL_RUN[k].split(' ').slice(1).join(' ')}</small></button>`).join('')}</div></label><label><span>Joelho após a corrida</span><div class="segment run">${[['normal','Normal'],['little','Pouco inchado'],['more','Mais que habitual']].map(([k,t])=>`<button class="${d.knee===k?'on':''}" onclick="runDraft.knee='${k}';render()">${t}</button>`).join('')}</div></label><button class="btn" onclick="saveRun()">SALVAR CORRIDA</button></div>${footerSign()}`;window.updatePace=()=>{const el=$('#paceNow');if(el)el.textContent=pace(runDraft.dist,runDraft.dur)}}
 function saveRun(){const dist=parseFloat(runDraft.dist),dur=parseFloat(runDraft.dur);if(!dist||!dur){modal('<h3>Faltou um detalhe</h3><p>Coloque distância e duração para salvar a corrida.</p>');return}const rec={id:Date.now(),t:Date.now(),type:runDraft.type,dist,dur,shoe:runDraft.shoe,eff:runDraft.eff,feel:runDraft.feel,knee:runDraft.knee,energy:runDraft.energy,pain:runDraft.pain,pace:pace(dist,dur)};RH().unshift(rec);Store.save();const pr=dist>maxRunBefore(rec.id);runDraft={type:'easy',shoe:'plain',eff:'moderate',feel:'good',knee:'normal',energy:'normal',pain:'none'};if(pr){modal(`<div style="text-align:center"><div class="lbl">NOVO MARCO</div><h2 style="font-size:42px;color:var(--run)">${dist.toFixed(1)} KM</h2><p>Maior distância registrada no Protocolo Hero.</p><button class="btn" onclick="closeModal();view='home';render()">FECHAR</button></div>`)}else{view='home';render()}}
 function vPadel(){const d=padelDraft;$('#app').innerHTML=`<div class="mode-head padel"><div><div class="lbl">COURT MODE</div><div class="mode-title">PADEL</div></div><span style="font-size:34px">🎾</span></div><div class="card form-card padelform"><div class="lbl">REGISTRAR SESSÃO</div><div class="checkin"><div class="checkin-box"><small>Energia antes</small><div class="microseg">${[['low','😵'],['normal','🙂'],['high','⚡']].map(([k,t])=>`<button class="${d.energy===k?'on':''}" onclick="padelDraft.energy='${k}';render()">${t}</button>`).join('')}</div></div><div class="checkin-box"><small>Algo incomodando?</small><div class="microseg">${[['none','Não'],['yes','Sim']].map(([k,t])=>`<button class="${d.pain===k?'on':''}" onclick="padelDraft.pain='${k}';render()">${t}</button>`).join('')}</div></div></div><label><span>Duração (minutos)</span><input class="field" type="number" inputmode="numeric" placeholder="Ex.: 90" value="${d.dur||''}" oninput="padelDraft.dur=this.value"></label><label><span>Intensidade</span><div class="segment padel">${[['easy','Leve'],['moderate','Moderada'],['hard','Forte']].map(([k,t])=>`<button class="${d.eff===k?'on':''}" onclick="padelDraft.eff='${k}';render()">${t}</button>`).join('')}</div></label><label><span>Como foi?</span><div class="segment padel">${[['loose','🙂 Solto'],['normal','🎯 Normal'],['tough','🥵 Puxado']].map(([k,t])=>`<button class="${d.feel===k?'on':''}" onclick="padelDraft.feel='${k}';render()">${t}</button>`).join('')}</div></label><label><span>Joelho após o padel</span><div class="segment padel">${[['normal','Normal'],['little','Pouco inchado'],['more','Mais que habitual']].map(([k,t])=>`<button class="${d.knee===k?'on':''}" onclick="padelDraft.knee='${k}';render()">${t}</button>`).join('')}</div></label><button class="btn o" onclick="savePadel()">SALVAR PADEL</button></div>${footerSign()}`}
@@ -531,13 +673,43 @@ function startWithWarmup(){if(!draft.warmup){startSession();return}modal(`<div s
 function travel(){modal(`<h3>Estou viajando</h3>${TRAVEL.map(([k,v])=>`<button class="opt" onclick="setTravel('${k}')">${v}</button>`).join('')}`)}
 function setTravel(k){closeModal();draft.eq=k==='gym'?'gym':k==='trx'||k==='trx0'?'trx':'db';draft.tip=TRAVEL_TIPS[k]||null;render()}
 
-function vSession(){if(!normalizeSession()||!Store.d.session){view='home';render();return}const s=Store.d.session,exs=exList(s),i=s.i,e=exs[i],st=s.ex[i],l=lastOf(e.name),fbh=fbHistory(e.name),essential=i<5;let msg='';if(st.fb==='hard')msg='Reduza um pouco a carga ou o ângulo na próxima sessão.';if(st.fb==='easy'&&fbh[0]==='easy')msg='Hora de aumentar a carga ou a dificuldade.';$('#app').innerHTML=`<div class="top"><div class="row sp"><span class="logo"><i></i>TREINO ${s.w} · ${s.eq==='gym'?(Store.d.gymName||'Academia'):EQ[s.eq]}</span><button class="del" style="color:var(--mut)" onclick="ask('Sair do treino? O progresso fica salvo.','goHome()')">✕ sair</button></div><div class="dots">${exs.map((_,j)=>`<i class="${j<i?'d':j===i?'c':''}"></i>`).join('')}</div></div>${s.tip&&i===0?`<div class="msg c">${s.tip}</div>`:''}<div class="card exercise-hero"><div class="n">${String(i+1).padStart(2,'0')}</div><span class="pill a">${e.muscle}</span>${s.short?`<span class="priority ${essential?'essential':'extra'}">${essential?'Essencial':'Extra'}</span>`:''}<h2>${e.name}</h2>${s.eq==='gym'?`<div class="machine-hero"><div><small>${escapeHTML(Store.d.gymName||'Minha academia')} · localização</small><b>Seu atalho visual</b></div><input aria-label="Número da máquina" type="text" maxlength="6" enterkeyhint="done" placeholder="—" value="${escapeHTML((Store.d.machines||{})[e.name]||'')}" oninput="(Store.d.machines=Store.d.machines||{})['${e.name}']=this.value.trim();Store.save()"></div>`:''}<div class="exercise-meta"><div class="kg"><small>CARGA</small><b>${e.w?(st.kg||'—'):'—'}</b></div><div><small>SÉRIES</small><b>${e.sets}</b></div><div><small>REPS</small><b>${e.reps}</b></div><div class="rest"><small>DESCANSO</small><b>${st.rest}s</b></div></div>${e.w?`<div class="row" style="margin-top:12px"><span class="lbl">Peso usado</span><input id="kg" type="number" inputmode="decimal" value="${st.kg}" placeholder="kg" style="flex:1;min-width:0;background:#0b0f1a;border:1px solid var(--line);border-radius:12px;color:var(--tx);font:700 26px var(--f);padding:10px;text-align:center" oninput="Store.d.session.ex[${i}].kg=this.value;Store.save()"><span class="lbl">kg</span></div>`:''}<div class="row sp hrow" style="margin-top:10px"><span>Descanso ajustável</span><span class="row"><button class="btn g" style="width:64px;margin:0;padding:9px" onclick="adjRest(-15)">−15</button><button class="btn g" style="width:64px;margin:0;padding:9px" onclick="adjRest(15)">+15</button></span></div>${e.k?'<div class="msg">Joelho direito: respeitar limite de 90°. Dor não é meta.</div>':''}${l&&e.w?`<div class="msg c">Última vez: ${l.kg||'—'} kg · ${l.reps.join(' / ')}<br>Objetivo de hoje: ${goal(l)}</div>`:''}<div class="series-title"><b>SÉRIES DO DIA</b><span>${st.sets.filter(x=>x.d).length}/${st.sets.length} concluídas</span></div>${st.sets.map((x,j)=>`<div class="set ${x.d?'done':''}"><em>${j+1}</em><div style="flex:1"><input type="text" inputmode="numeric" value="${x.r}" placeholder="${e.reps.split('–').pop().replace(/\D.*/,'')}" oninput="Store.d.session.ex[${i}].sets[${j}].r=this.value;Store.save()"><small>REPS / TEMPO</small></div><button class="chk" onclick="tick(${j})">✓</button></div>`).join('')}<div class="rir"><span>RIR · REPETIÇÕES NA RESERVA</span>${['0','1','2','3+'].map(k=>`<button class="${st.rir===k?'on':''}" onclick="Store.d.session.ex[${i}].rir='${k}';Store.save();render()">${k}</button>`).join('')}</div>${s.eq==='trx'&&trxGuideFor(e.name)?`<div class="motion-cue"><span>◎</span><div><b>${trxGuideFor(e.name).anchor}</b><br>${trxGuideFor(e.name).cue}</div></div><button class="motion-btn" onclick="how()">▶ VER MOVIMENTO</button>`:(s.eq==='trx'&&atlasImageFor(e.name)?`<button class="motion-btn" onclick="how()">▶ VER MOVIMENTO</button>`:'')}<details class="secondary-actions"><summary>AJUDA & AJUSTES</summary><div class="inside"><button class="btn g" onclick="how()">📖 Como fazer</button><div class="grid"><button class="btn g" onclick="hint('e')">Mais fácil</button><button class="btn g" onclick="hint('h')">Mais difícil</button></div></div></details><div class="lbl" style="margin-top:16px">COMO FOI?</div><div class="feedback-grid">${[['easy','🙂','Fácil'],['good','😤','Boa carga'],['hard','💀','Pesado']].map(([k,em,t])=>`<button class="${st.fb===k?'on':''}" onclick="Store.d.session.ex[${i}].fb='${k}';Store.save();render()"><span>${em}</span>${t}</button>`).join('')}</div>${msg?`<div class="msg">${msg}</div>`:''}</div><div class="exercise-position">EXERCÍCIO ${i+1} DE ${exs.length}</div><div class="nav-workout"><button aria-label="Exercício anterior" class="btn g prev" ${i?'':'disabled'} onclick="goExercise(-1)">← ANTERIOR</button>${i<exs.length-1?`<button aria-label="Seguir para o próximo exercício" class="btn next" onclick="goExercise(1)">SEGUIR →</button>`:`<button class="btn o next" onclick="fin()">FINALIZAR</button>`}</div>`;window.tick=j=>{const x=st.sets[j];x.d=x.d?0:1;if(x.d&&!x.r){const t=document.querySelectorAll('.set input')[j];if(t&&t.value)x.r=t.value}Store.save();render();if(x.d)rest(st.rest)};window.how=()=>modal(motionGuideHTML(e))}
+function vSession(){
+ if(!normalizeSession()||!Store.d.session){view='home';render();return}
+ document.body.classList.add('in-workout');
+ const s=Store.d.session,exs=exList(s),i=s.i,e=exs[i],st=s.ex[i],l=lastOf(e.name),fbh=fbHistory(e.name),essential=i<5;
+ const c=currentSetIndex(st),all=c>=st.sets.length,active=st.sets[Math.min(c,st.sets.length-1)],step=stepSizeFor(s,e);
+ let msg='';if(st.fb==='hard')msg='Na próxima sessão, reduza um pouco a carga ou o ângulo.';if(st.fb==='easy'&&fbh[0]==='easy')msg='Duas sessões leves seguidas. Considere subir a dificuldade.';
+ const nextName=i<exs.length-1?exs[i+1].name:'Resumo do treino';
+ const completed=st.sets.map((x,j)=>x.d?`<div class="completed-set-summary"><span>Série ${j+1} ✓</span><b>${e.w?(escapeHTML(x.kg||'—')+' kg · '):''}${escapeHTML(x.r||'—')} reps</b></div>`:'').join('');
+ const activePanel=all?`<div class="all-sets-done"><div class="lbl">EXERCÍCIO CONCLUÍDO</div><h3 style="margin-top:5px">Boa. Próximo passo.</h3><p class="hrow">Registre a percepção ou siga direto.</p></div>`
+ :`<div class="active-set"><div class="active-set-head"><b>SÉRIE ${c+1}</b><span>${c+1} de ${st.sets.length}</span></div><div class="set-controls">
+ ${e.w?`<div class="metric-control"><span>CARGA · KG</span><div class="metric-row"><button aria-label="Diminuir carga" onclick="adjustActive('kg',-${step})">−</button><input id="activeKg" aria-label="Carga da série atual" inputmode="decimal" type="number" step="0.5" value="${escapeHTML(active.kg??'')}" oninput="setSeriesValue('kg',this.value)"><button aria-label="Aumentar carga" onclick="adjustActive('kg',${step})">+</button></div></div>`:''}
+ <div class="metric-control reps"><span>REPS / TEMPO</span><div class="metric-row"><button aria-label="Diminuir repetições" onclick="adjustActive('r',-1)">−</button><input id="activeReps" aria-label="Repetições da série atual" inputmode="numeric" value="${escapeHTML(active.r||'')}" oninput="setSeriesValue('r',this.value)"><button aria-label="Aumentar repetições" onclick="adjustActive('r',1)">+</button></div></div>
+ </div><button class="primary-set" onclick="completeActiveSet()">✓ CONCLUIR SÉRIE ${c+1}</button></div>`;
+ $('#app').innerHTML=`<div class="top"><div class="row sp"><span class="logo"><i></i>TREINO ${s.w} · ${s.eq==='gym'?(Store.d.gymName||'Academia'):EQ[s.eq]}</span><button class="del" aria-label="Opções da sessão" onclick="sessionMenu()">⋯</button></div><div class="dots">${exs.map((_,j)=>`<i class="${j<i?'d':j===i?'c':''}"></i>`).join('')}</div><div class="workout-context"><strong>Exercício ${i+1} de ${exs.length}</strong><span>~${estimateRemaining(s)} min restantes</span></div></div>
+ ${s.tip&&i===0?`<div class="msg c">${s.tip}</div>`:''}
+ <div class="card exercise-hero-v2"><div class="exercise-number">${String(i+1).padStart(2,'0')}</div><span class="pill a">${e.muscle}</span>${s.short?`<span class="priority ${essential?'essential':'extra'}">${essential?'Essencial':'Extra'}</span>`:''}<h2>${e.name}</h2>
+ ${s.eq==='gym'?`<div class="machine-hero"><div><small>${escapeHTML(Store.d.gymName||'Minha academia')} · máquina</small><b>Seu atalho visual</b></div><input aria-label="Número da máquina" type="text" maxlength="6" placeholder="—" value="${escapeHTML((Store.d.machines||{})[e.name]||'')}" oninput="(Store.d.machines=Store.d.machines||{})['${e.name}']=this.value.trim();Store.save()"></div>`:''}
+ <div class="hrow" style="margin-top:12px"><b>${e.sets} × ${e.reps}</b> · descanso ${st.rest}s</div>
+ ${e.k?'<div class="msg">Joelho direito: respeite o limite de 90°. Dor não é meta.</div>':''}
+ ${l&&e.w?`<div class="msg c">Última vez: ${l.kg||'—'} kg · ${l.reps.join(' / ')}</div>`:''}
+ <div class="set-progress">${st.sets.map((x,j)=>`<button aria-label="Série ${j+1}" class="${x.d?'done':j===c?'current':''}" onclick="jumpToSet(${j})">${x.d?'✓':j+1}</button>`).join('')}</div>
+ ${completed}${activePanel}
+ ${all?`<div class="lbl" style="margin-top:18px">COMO FOI?</div><div class="feedback-grid">${[['easy','🙂','Fácil'],['good','😤','Boa carga'],['hard','💀','Pesado']].map(([k,em,t])=>`<button class="${st.fb===k?'on':''}" onclick="Store.d.session.ex[${i}].fb='${k}';Store.save();render()"><span>${em}</span>${t}</button>`).join('')}</div><div class="rir" style="margin-top:12px"><span>RIR</span>${['0','1','2','3+'].map(k=>`<button class="${st.rir===k?'on':''}" onclick="Store.d.session.ex[${i}].rir='${k}';Store.save();render()">${k}</button>`).join('')}</div>`:''}
+ ${msg?`<div class="msg">${msg}</div>`:''}
+ <div class="quick-tools"><button onclick="how()">▶ COMO FAZER</button><button onclick="exerciseMenu()">⋯ AJUSTES</button></div>
+ </div>
+ <div class="workout-dock"><div class="workout-dock-inner"><button aria-label="Exercício anterior" ${i?'':'disabled'} onclick="goExercise(-1)">‹</button>${all?(i<exs.length-1?`<button class="next-main" onclick="goExercise(1)">PRÓXIMO EXERCÍCIO<small>${escapeHTML(nextName)}</small></button>`:`<button class="next-main" onclick="fin()">FINALIZAR TREINO<small>ver resumo</small></button>`):`<button class="next-main" onclick="completeActiveSet()">CONCLUIR SÉRIE ${c+1}<small>${e.w?(escapeHTML(active.kg||'—')+' kg · '):''}${escapeHTML(active.r||'—')} reps</small></button>`}<button class="menu-dot" aria-label="Opções" onclick="sessionMenu()">⋯</button></div></div>`;
+ window.how=()=>modal(motionGuideHTML(e));
+}
 function fin(){const s=Store.d.session;if(s.w==='C'){modal(`<h3>Como ficou o joelho?</h3>${[['normal','Normal'],['little','Um pouco inchado'],['more','Mais inchado que o habitual']].map(([k,v])=>`<button class="opt" onclick="closeModal();finishSession('${k}')">${v}</button>`).join('')}`)}else finishSession()}
 
 function vHist(){const all=[];H().forEach(h=>all.push({kind:'strength',t:h.t,data:h}));RH().forEach(r=>all.push({kind:'run',t:r.t,data:r}));PH().forEach(r=>all.push({kind:'padel',t:r.t,data:r}));all.sort((a,b)=>b.t-a.t);$('#app').innerHTML=`<div class="logo"><i></i>HISTÓRICO</div><h1 style="font-size:42px;margin:14px 0 6px">LINHA DO TEMPO</h1><div class="hrow">Força, corrida e padel em uma única visão.</div>${all.map(x=>{const d=new Date(x.t),day=String(d.getDate()).padStart(2,'0'),mon=d.toLocaleDateString('pt-BR',{month:'short'}).replace('.','').toUpperCase();if(x.kind==='strength'){const h=x.data;return `<div class="timeline-card strength"><div class="timeline-date">${day}<small>${mon}</small></div><div class="timeline-main"><b>Força ${h.w} · ${WORKOUTS[h.w].title}</b><div>${mins(h.dur)} min · ${safeEx(h).length} exercícios${h.short?' · missão curta':''}</div></div><div class="timeline-icon">🏋️</div></div>`}if(x.kind==='run'){const r=x.data;return `<div class="timeline-card run"><div class="timeline-date">${day}<small>${mon}</small></div><div class="timeline-main"><b>Corrida · ${RUN_LABEL[r.type]}</b><div>${(parseFloat(r.dist)||0).toFixed(1)} km · ${r.pace||'—'} · ${SHOE_LABEL[r.shoe]||'Tênis não informado'}${r.feel?' · '+FEEL_RUN[r.feel]:''}</div></div><div class="timeline-icon">🏃</div></div>`}const r=x.data;return `<div class="timeline-card padel"><div class="timeline-date">${day}<small>${mon}</small></div><div class="timeline-main"><b>Padel</b><div>${r.dur} min · ${EFF_LABEL[r.eff]}${r.feel?' · '+FEEL_PADEL[r.feel]:''}</div></div><div class="timeline-icon">🎾</div></div>`}).join('')||'<div class="card hrow">Nenhuma atividade ainda.</div>'}${footerSign()}` }
 function vProg(){const c={A:0,B:0,C:0};H().forEach(h=>c[h.w]++);const wks=[...Array(6)].map((_,o)=>inWeek(5-o).length);const ev={};H().slice().reverse().forEach(h=>safeEx(h).forEach(e=>{const k=parseFloat(e&&e.kg);if(e&&e.w&&k)(ev[e.name]=ev[e.name]||[]).push(k)}));const top=Object.entries(ev).sort((a,b)=>b[1].length-a[1].length).slice(0,5);const cons=Math.round(wks.filter(x=>x>=3).length/6*100),coreN=H().filter(h=>safeEx(h).some(e=>e&&e.c)).length;const plateKm=RH().filter(r=>r.shoe==='plate').reduce((a,r)=>a+(parseFloat(r.dist)||0),0),plainKm=RH().filter(r=>r.shoe==='plain').reduce((a,r)=>a+(parseFloat(r.dist)||0),0),runKm=RH().reduce((a,r)=>a+(parseFloat(r.dist)||0),0),knees=knee30();$('#app').innerHTML=`<div class="logo"><i></i>PROGRESSO</div><h1 style="font-size:42px;margin:14px 0 0">PROTOCOLO</h1><div class="progress-tabs"><button>Semana</button><button class="on">Geral</button><button>V1</button></div><div class="progress-grid"><div class="progress-tile force"><small>FORÇA</small><b>${H().length}</b><span class="hrow">A ${c.A} · B ${c.B} · C ${c.C}</span></div><div class="progress-tile run"><small>CORRIDA</small><b>${runKm.toFixed(1)}</b><span class="hrow">km registrados</span></div><div class="progress-tile core"><small>CORE</small><b>${coreN}</b><span class="hrow">treinos</span></div><div class="progress-tile padel"><small>PADEL</small><b>${PH().length}</b><span class="hrow">sessões</span></div></div><div class="card"><div class="section-title"><span class="lbl">TÊNIS · KM ACUMULADO</span></div><div class="grid"><div class="shoe-card">SEM PLACA<b style="color:var(--run)">${plainKm.toFixed(1)} km</b></div><div class="shoe-card">COM PLACA<b>${plateKm.toFixed(1)} km</b></div></div></div><div class="card"><div class="section-title"><span class="lbl">JOELHO · ÚLTIMOS 30 DIAS</span></div><div class="knee-list"><span><i class="dot-status ok"></i>Normal</span><b>${knees.normal}</b><span><i class="dot-status mid"></i>Pouco inchado</span><b>${knees.little}</b><span><i class="dot-status bad"></i>Mais que habitual</span><b>${knees.more}</b></div></div><div class="card"><div class="section-title"><span class="lbl">EVOLUÇÃO DE CARGA</span><span class="mini">principais</span></div>${top.map(([n,a])=>`<div class="hrow"><b>${n}</b>: ${a[0]} → <b style="color:var(--ok)">${a[a.length-1]} kg</b><div class="bar"><i style="width:${Math.min(100,a[a.length-1]/Math.max(...a)*100)}%"></i></div></div>`).join('')||'<div class="hrow">Registre cargas para ver a evolução.</div>'}</div><div class="card"><div class="row sp"><span class="lbl">CONSISTÊNCIA · FORÇA</span><b class="big" style="font-size:38px;color:var(--cyan)">${cons}%</b></div><div class="hrow">Semanas com 3 treinos nas últimas 6 semanas.</div></div>${footerSign()}`}function vMore(){$('#app').innerHTML=`<div class="logo"><i></i>PROTOCOLO</div><h1 style="font-size:42px;margin:14px 0 6px">MAIS</h1><div class="card more-card"><button onclick="view='hist';render()">📜 Histórico<small>Linha do tempo de todas as atividades.</small></button><button onclick="view='prog';render()">📈 Progresso<small>Cargas, quilômetros, consistência e joelho.</small></button><button onclick="view='about';render()">ⓘ Sobre o Protocolo<small>Autoria, versão e informações do app.</small></button></div><div class="card section"><div class="section-title"><span class="lbl">🏟️ ACADEMIA</span><span class="mini">editável</span></div><div class="gym-edit"><input id="gymName" maxlength="32" value="${escapeHTML(Store.d.gymName||'Minha academia')}" placeholder="Nome da academia"><button class="btn g" onclick="Store.d.gymName=($('#gymName').value||'Minha academia').trim();Store.save();render()">Salvar</button></div></div>${footerSign()}`}
-function vAbout(){$('#app').innerHTML=`<div class="logo"><i></i>SOBRE</div><div class="card author-card"><span class="vmark">VERSÃO 1</span><h2>PROTOCOLO HERO</h2><p>Treino integrado de força, corrida, padel e core. Criado para registro rápido, clareza durante o treino e acompanhamento pessoal.</p><div class="lbl" style="margin-top:22px">GERADO POR</div><div class="author-name">Luiz Renato da Rosa</div><div class="legal-note">Dados armazenados localmente neste dispositivo. O app não realiza diagnóstico médico e não substitui orientação profissional individualizada.</div></div><button class="btn g" onclick="view='more';render()">VOLTAR</button>${footerSign()}`}
+function vAbout(){$('#app').innerHTML=`<div class="logo"><i></i>SOBRE</div><div class="card author-card"><span class="vmark">VERSÃO 2 · BETA</span><h2>PROTOCOLO HERO</h2><p>Treino integrado de força, corrida, padel e core. Criado para registro rápido, clareza durante o treino e acompanhamento pessoal.</p><div class="lbl" style="margin-top:22px">GERADO POR</div><div class="author-name">Luiz Renato da Rosa</div><div class="legal-note">Dados armazenados localmente neste dispositivo. O app não realiza diagnóstico médico e não substitui orientação profissional individualizada.</div></div><button class="btn g" onclick="view='more';render()">VOLTAR</button>${footerSign()}`}
 
+window.addEventListener('error',()=>{try{Store.save()}catch(e){}});
+window.addEventListener('unhandledrejection',()=>{try{Store.save()}catch(e){}});
 render();
 Store.recover().then(restored=>{if(restored){ensureStoreShape();normalizeSession();Store.save();render()}});
 window.addEventListener('pagehide',()=>Store.save());
