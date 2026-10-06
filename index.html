@@ -305,6 +305,8 @@ body.in-workout #app{padding-bottom:210px}
 @media(max-width:380px){.set-controls{grid-template-columns:1fr}.exercise-hero-v2 h2{font-size:30px}.metric-row input{font-size:42px}}
 @media(prefers-reduced-motion:reduce){.primary-set:active{transform:none}}
 
+
+.machine-adjust{margin-top:8px;padding:10px 12px;border:1px solid #ffb52e33;border-radius:16px;background:#0b0f1a}.machine-adjust label{display:flex;align-items:center;gap:10px}.machine-adjust span{font-size:11px;letter-spacing:.15em;color:#ffcf7a;font-weight:800}.machine-adjust input{flex:1;min-width:0;background:#121a2c;border:1px solid #2d3856;border-radius:11px;color:#fff;padding:11px;font-size:16px}.guide-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0}.guide-tabs button{min-height:48px;border:1px solid #31415f;border-radius:12px;background:#0d1423;color:#dfe8ff;font-weight:800}.guide-panel{padding:14px;border-radius:16px;background:#0b111e;border:1px solid #263553}.guide-panel b{color:var(--a)}
 </style></head><body>
 <div id="save-indicator" class="save-indicator" aria-live="polite">SALVO</div><div id="app"></div><nav class="tabs" id="tabs"></nav><div id="ov"></div>
 <script>
@@ -324,6 +326,23 @@ C:{title:'Posterior + Glúteos + Panturrilha',sub:'Manutenção esportiva',core:
 gym:X(['Mesa flexora|Posterior de coxa|3|10–15|75|Controle a volta, sem tirar o quadril.|wk','Hip thrust|Glúteos|3|8–12|90|Queixo recolhido, contraia no topo.|wk','Romanian deadlift|Posterior · lombar|3|8–12|90|Quadril para trás, joelhos quase retos.|wk','Panturrilha na máquina|Panturrilha|3|12–20|60|Amplitude completa, pausa no topo.|wk','Remada leve|Costas|2|10–15|60|Carga moderada, foco na postura.|w','Elevação lateral|Ombros|2|12–20|60|Leve e controlada.|w','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','Suitcase hold|Core · lateral|3|30 s/lado|45|Um peso, tronco reto.|wc']),
 trx:X(['TRX Hamstring Curl · calcanhares nos estribos|Posterior de coxa|3|8–12|75|Calcanhares no TRX, suba o quadril e flexione.|k','TRX Glute Bridge · calcanhares nos estribos|Glúteos|3|10–15|75|Contraia no topo.|k','TRX Hip Hinge|Posterior · lombar|3|10–12|75|Quadril para trás, coluna neutra.|k','Elevação de panturrilha · apoio TRX|Panturrilha|3|12–20|60|Use o TRX só para equilíbrio.|k','TRX Low Row · leve|Costas|2|10–15|60|Menos inclinação, foco na postura.','TRX Y-Fly|Ombros|2|10–12|60|Devagar e controlado.','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','TRX Standing Anti-Rotation Press|Core · anti-rotação|3|10 /lado|45|Resista à rotação.|c']),
 db:X(['Romanian deadlift|Posterior · lombar|3|8–12|90|Halteres rente às pernas, quadril para trás.|wk','Hip thrust com halter|Glúteos|3|8–12|90|Halter sobre o quadril, contraia no topo.|wk','Levantamento romeno unilateral|Posterior · equilíbrio|3|8–10 /lado|75|Joelho levemente flexionado, apoie se precisar.|wk','Panturrilha com halteres|Panturrilha|3|12–20|60|Pausa no topo.|wk','Remada unilateral leve|Costas|2|10–15|60|Carga moderada.|w','Elevação lateral|Ombros|2|12–20|60|Leve e controlada.|w','Dead bug|Core · controle|3|8 /lado|45|Lombar colada no chão.|c','Prancha lateral|Core · lateral|3|20–40 s/lado|45|Quadril alto.|c','Suitcase hold|Core · lateral|3|30 s/lado|45|Um halter, tronco reto.|wc'])}};
+const EXTRA_EXERCISES={
+ trx:X([
+  'TRX Push-up · flexão|Peito · tríceps|3|8–12|75|Corpo alinhado; controle a descida e empurre sem perder o tronco.',
+  'TRX Chest Fly · voador|Peito|3|8–12|75|Braços quase estendidos; abra com controle e feche usando o peitoral.',
+  'TRX Squat · agachamento básico|Pernas · glúteos|3|10–15|60|Use o TRX como apoio; respeite a amplitude confortável e o limite do joelho.|k',
+  'TRX Single-leg Squat · unilateral|Pernas · glúteos|3|8–10 /lado|75|Use apoio forte nas alças e amplitude curta; não ultrapasse o limite confortável do joelho.|k',
+  'TRX Jump Squat · agachamento com salto|Pernas · potência|2|6–8|90|Opcional de impacto. Só usar com liberação do profissional e sem dor.|k',
+  'TRX Forward Lunge · afundo|Pernas · glúteos|3|8 /lado|75|Passo curto e controlado; limite a flexão do joelho à amplitude orientada.|k',
+  'TRX Rollout|Core · anti-extensão|3|8–12|60|Braços avançam enquanto costelas e pelve permanecem controladas.|c',
+  'TRX Side Plank Rotation|Core · lateral|3|8 /lado|60|Prancha lateral estável; rode o tronco sem perder o alinhamento.|c'
+ ]),
+ gym:[],
+ db:[]
+};
+function exerciseLibrary(eq){const out=[],seen=new Set();for(const w of ['A','B','C'])for(const e of (WORKOUTS[w][eq]||[])){if(!seen.has(e.name)){seen.add(e.name);out.push(e)}}for(const e of (EXTRA_EXERCISES[eq]||[])){if(!seen.has(e.name)){seen.add(e.name);out.push(e)}}return out}
+function exerciseByName(eq,name){return exerciseLibrary(eq).find(e=>e.name===name)||null}
+function basePlan(w,eq){return (WORKOUTS[w]&&WORKOUTS[w][eq]||[]).map(e=>e.name)}
 const EQ={gym:'Academia completa',trx:'TRX',db:'Halteres'};
 const TRAVEL=[['gym','Academia completa'],['trx','TRX'],['db','Halteres'],['db+','TRX + halteres'],['trx0','Só peso corporal']];
 const TRAVEL_TIPS={db:'Halteres leves? Use mais repetições, cadência lenta (3-1-2) e exercícios unilaterais.','db+':'Puxadas e tríceps no TRX, o resto com halteres. Se os halteres forem leves: mais reps e cadência lenta.',trx0:'Peso corporal: use inclinação, pausa isométrica e cadência lenta para dificultar.'};
@@ -419,11 +438,22 @@ function motionSketch(name,phase){const k=guideKind(name);const head=(x,y,r=10)=
    body=`<circle class="sk-anchor" cx="110" cy="18" r="7"/>${head(110,88)}${line(110,98,110,128)}${line(110,128,92,148)}${line(110,128,128,148)}${line(110,108,90,90,'sk-limb')}${line(110,108,130,90,'sk-limb')}${line(38,150,182,150,'sk-ground')}`;
  }
  return `<svg viewBox="0 0 220 170" aria-hidden="true" role="img">${body}</svg>`;}
+function guideTab(k){
+ document.querySelectorAll('.guide-panel').forEach(x=>x.style.display='none');
+ const p=document.getElementById('guide-'+k);if(p)p.style.display='block';
+}
 function motionGuideHTML(e){
  const g=trxGuideFor(e.name),img=atlasImageFor(e.name);
- const visual=img?`<figure class="atlas-figure"><img src="${img}" alt="Sequência ilustrada do exercício ${escapeHTML(e.name)}: início, meio e fim"><figcaption class="atlas-caption">ATLAS TRX · sequência visual de início, meio e fim. Use a imagem como referência de posição e combine com as pistas técnicas abaixo.</figcaption></figure>`:'';
- if(!g)return `<div class="motion-guide"><div class="lbl">ATLAS TRX · COMO FAZER</div><h2>${escapeHTML(e.name)}</h2>${visual}<div class="guide-block"><p>${escapeHTML(e.tip)}</p></div><div class="guide-warn">Dor? Pare. Sem dor, com controle.</div><button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`;
- return `<div class="motion-guide"><div class="lbl">ATLAS TRX · PROTOCOLO HERO</div><h2>${escapeHTML(e.name)}</h2>${visual}<div class="guide-tags"><span>⚓ ${g.anchor}</span><span>↕ ${g.strap}</span><span>✋ ${g.grip}</span></div><div class="motion-cue"><span>◎</span><div><b>PISTA RÁPIDA</b><br>${g.cue}</div></div><div class="motion-strip"><div class="motion-step"><i>1</i><b>INÍCIO</b><p>${g.steps[0]}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>2</i><b>MOVIMENTO</b><p>${g.steps[1]}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>3</i><b>FINAL</b><p>${g.steps[2]}</p></div></div><div class="guide-block"><small>POSIÇÃO</small><p>${g.setup}</p></div><div class="guide-block"><small>EVITE</small><p>${g.avoid}</p></div><div class="guide-scale"><div><b>↓ MAIS FÁCIL</b>${g.easy}</div><div><b>↑ MAIS DIFÍCIL</b>${g.hard}</div></div><div class="source-note">Atlas visual fornecido no material “ATLAS TRX · PROJETO HERO”.</div><div class="guide-warn">Se houver dor ou instabilidade fora do esperado, interrompa o exercício.</div><button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`
+ const visual=img?`<figure class="atlas-figure"><img src="${img}" alt="Sequência ilustrada do exercício ${escapeHTML(e.name)}: início, meio e fim"><figcaption class="atlas-caption">ATLAS TRX · início, meio e fim.</figcaption></figure>`:'';
+ const tip=g?g.cue:e.tip,avoid=g?g.avoid:'Evite compensações, impulso e amplitude que cause desconforto.',easy=g?g.easy:specificHint('e'),hard=g?g.hard:specificHint('h');
+ return `<div class="motion-guide"><div class="lbl">${g?'ATLAS TRX · PROTOCOLO HERO':'COMO FAZER · PROTOCOLO HERO'}</div><h2>${escapeHTML(e.name)}</h2>${visual}
+ ${g?`<div class="guide-tags"><span>⚓ ${escapeHTML(g.anchor)}</span><span>↕ ${escapeHTML(g.strap)}</span><span>✋ ${escapeHTML(g.grip)}</span></div><div class="motion-strip"><div class="motion-step"><i>1</i><b>INÍCIO</b><p>${escapeHTML(g.steps[0])}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>2</i><b>MEIO</b><p>${escapeHTML(g.steps[1])}</p></div><div class="motion-arrow">→</div><div class="motion-step"><i>3</i><b>FIM</b><p>${escapeHTML(g.steps[2])}</p></div></div>`:''}
+ <div class="guide-tabs"><button onclick="guideTab('tip')">DICA</button><button onclick="guideTab('err')">ERROS</button><button onclick="guideTab('var')">VARIAÇÕES</button></div>
+ <div id="guide-tip" class="guide-panel"><b>PISTA RÁPIDA</b><p>${escapeHTML(tip)}</p>${g?`<p>${escapeHTML(g.setup)}</p>`:''}</div>
+ <div id="guide-err" class="guide-panel" style="display:none"><b>EVITE</b><p>${escapeHTML(avoid)}</p></div>
+ <div id="guide-var" class="guide-panel" style="display:none"><b>MAIS FÁCIL</b><p>${escapeHTML(easy)}</p><b>MAIS DIFÍCIL</b><p>${escapeHTML(hard)}</p></div>
+ ${e.k?'<div class="guide-warn">Joelho: respeite o limite de amplitude orientado. Se houver dor, interrompa.</div>':'<div class="guide-warn">Se houver dor ou instabilidade fora do esperado, interrompa o exercício.</div>'}
+ <button class="btn guide-exit" onclick="closeModal()">← VOLTAR AO EXERCÍCIO</button></div>`;
 }
 
 /* ================= ARMAZENAMENTO ================= */
@@ -445,21 +475,25 @@ function ensureStoreShape(){
  Store.d.settings=Store.d.settings||{shortMode:false,warmup:true,stepGym:5,stepPlate:2.5,stepDb:2,sound:true,gymMode:false,leftHand:false,humor:true};
  Store.d.machines=Store.d.machines&&typeof Store.d.machines==='object'?Store.d.machines:{};
  Store.d.adjustments=Store.d.adjustments&&typeof Store.d.adjustments==='object'?Store.d.adjustments:{};
+ Store.d.exerciseRest=Store.d.exerciseRest&&typeof Store.d.exerciseRest==='object'?Store.d.exerciseRest:{};
  Store.d.gymName=Store.d.gymName||'Minha academia';
- Store.d.version='2.0.0-beta.1';
+ Store.d.version='2.0.0-beta.2';
 }
 ensureStoreShape();
 function makeExerciseState(e,old){
  old=old&&typeof old==='object'?old:{};
  const oldSets=Array.isArray(old.sets)?old.sets:[];
  const baseKg=old.kg??'';
- return {name:e.name,kg:baseKg,sets:Array.from({length:e.sets},(_,j)=>({kg:oldSets[j]?.kg??baseKg,r:oldSets[j]?.r??'',d:oldSets[j]?.d?1:0})),fb:['easy','good','hard'].includes(old.fb)?old.fb:'',rir:['0','1','2','3+'].includes(old.rir)?old.rir:'',rest:Number.isFinite(+old.rest)&&+old.rest>=15?+old.rest:e.rest,note:typeof old.note==='string'?old.note:''};
+ return {name:e.name,kg:baseKg,sets:Array.from({length:e.sets},(_,j)=>({kg:oldSets[j]?.kg??baseKg,r:oldSets[j]?.r??'',d:oldSets[j]?.d?1:0})),fb:['easy','good','hard'].includes(old.fb)?old.fb:'',rir:['0','1','2','3+'].includes(old.rir)?old.rir:'',rest:Number.isFinite(+old.rest)&&+old.rest>=15?+old.rest:(Number.isFinite(+Store.d.exerciseRest[e.name])?+Store.d.exerciseRest[e.name]:e.rest),note:typeof old.note==='string'?old.note:''};
 }
 function normalizeSession(){
  const s=Store.d.session;
  if(!s)return true;
  if(!WORKOUTS[s.w]||!WORKOUTS[s.w][s.eq]){Store.d.session=null;Store.save();return false}
- const exs=WORKOUTS[s.w][s.eq],old=Array.isArray(s.ex)?s.ex:[];
+ if(!Array.isArray(s.plan)||!s.plan.length)s.plan=basePlan(s.w,s.eq);
+ s.plan=s.plan.filter(n=>!!exerciseByName(s.eq,n));
+ if(!s.plan.length)s.plan=basePlan(s.w,s.eq);
+ const exs=exList(s),old=Array.isArray(s.ex)?s.ex:[];
  s.i=Math.max(0,Math.min(exs.length-1,Number.isInteger(s.i)?s.i:0));
  const byName=new Map(old.filter(x=>x&&typeof x==='object'&&x.name).map(x=>[x.name,x]));
  s.ex=exs.map((e,i)=>makeExerciseState(e,byName.get(e.name)||old[i]));
@@ -509,9 +543,9 @@ function maxKgBefore(name,id){let m=0;H().forEach(h=>{if(h.id===id)return;h.ex.f
 /* ================= SESSÃO ================= */
 let view='home',draft={w:null,eq:'gym',tip:null,energy:'normal',pain:'none',short:false,warmup:true},timer=null,runDraft={type:'easy',shoe:'plain',eff:'moderate',feel:'good',knee:'normal',energy:'normal',pain:'none'},padelDraft={eff:'moderate',feel:'normal',knee:'normal',energy:'normal',pain:'none'};
 const $=s=>document.querySelector(s);
-const exList=s=>WORKOUTS[s.w][s.eq];
+const exList=s=>{const names=Array.isArray(s&&s.plan)&&s.plan.length?s.plan:basePlan(s.w,s.eq);return names.map(n=>exerciseByName(s.eq,n)).filter(Boolean)};
 function startSession(){const exs=WORKOUTS[draft.w][draft.eq];
- Store.d.session={id:'sess_'+Date.now(),w:draft.w,eq:draft.eq,tip:draft.tip,t:Date.now(),u:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name),prev=Array.isArray(l&&l.series)?l.series:[];const base=parseInt(e.reps)||10;return{name:e.name,kg:l&&l.kg||'',sets:Array.from({length:e.sets},(_,j)=>({kg:(prev[j]?.kg ?? (l&&l.kg) ?? ''),r:String(prev[j]?.r??(l&&l.reps&&l.reps[j])??base),d:0})),fb:'',rir:'',rest:e.rest,note:''}})};
+ Store.d.session={id:'sess_'+Date.now(),w:draft.w,eq:draft.eq,plan:exs.map(e=>e.name),tip:draft.tip,t:Date.now(),u:Date.now(),i:0,short:!!draft.short,warmup:!!draft.warmup,check:{energy:draft.energy||'normal',pain:draft.pain||'none'},ex:exs.map(e=>{const l=lastOf(e.name),prev=Array.isArray(l&&l.series)?l.series:[];const base=parseInt(e.reps)||10;return{name:e.name,kg:l&&l.kg||'',sets:Array.from({length:e.sets},(_,j)=>({kg:(prev[j]?.kg ?? (l&&l.kg) ?? ''),r:String(prev[j]?.r??(l&&l.reps&&l.reps[j])??base),d:0})),fb:'',rir:'',rest:e.rest,note:''}})};
  Store.save();view='session';render()}
 function finishSession(knee){const s=Store.d.session;if(!s)return;
  const ex=exList(s).map((e,i)=>{const done=s.ex[i].sets.filter(x=>x.d),series=done.map(x=>({kg:x.kg??s.ex[i].kg??'',r:x.r||'—'}));const kg=series.map(x=>parseFloat(x.kg)||0).filter(Boolean).pop()||s.ex[i].kg||'';return{name:e.name,w:e.w,c:e.c,kg,reps:series.map(x=>x.r),series,fb:s.ex[i].fb,rir:s.ex[i].rir,note:s.ex[i].note||''}}).filter(e=>e.reps.length);
@@ -541,8 +575,8 @@ function discardSession(){clearInterval(timer);timer=null;Store.d.session=null;S
 function sessionMenu(){const s=Store.d.session;if(!s)return;modal(`<h3>O que você quer fazer?</h3><p class="hrow">Seu histórico anterior fica intacto.</p><button class="btn" onclick="closeModal()">CONTINUAR TREINO</button><button class="btn g" onclick="closeModal();goHome()">SAIR E RETOMAR DEPOIS</button><button class="btn g" style="color:var(--bad)" onclick="confirmDiscard()">CANCELAR ESTA SESSÃO</button>`,'Sessão em andamento')}
 function confirmDiscard(){modal(`<h3>Cancelar esta sessão?</h3><p class="hrow">Somente o treino em andamento será descartado. Nada do seu histórico será apagado.</p><button class="btn" onclick="closeModal()">NÃO, CONTINUAR</button><button class="btn g" style="color:var(--bad)" onclick="discardSession()">SIM, DESCARTAR SESSÃO</button>`,'Confirmação')}
 function delH(id){Store.d.history=H().filter(x=>x.id!==id);Store.save();render()}
-function adjRest(d){const s=Store.d.session,st=s.ex[s.i];st.rest=Math.max(15,st.rest+d);Store.save();render()}
-function hint(k){const s=Store.d.session;modal(`<h3>${k==='e'?'Mais fácil':'Mais difícil'}</h3><p>${(k==='e'?EASY:HARD)[s.eq]}</p>`)}
+function adjRest(d){const s=Store.d.session,st=s.ex[s.i],e=exList(s)[s.i];st.rest=Math.max(15,st.rest+d);Store.d.exerciseRest[e.name]=st.rest;Store.save();render()}
+function hint(k){modal(`<h3>${k==='e'?'Mais fácil':'Mais difícil'}</h3><p>${escapeHTML(specificHint(k))}</p>`)}
 let navBusy=false;
 function goExercise(d){
  try{
@@ -586,8 +620,38 @@ function completeActiveSet(){
 }
 function jumpToSet(j){const s=Store.d.session;if(!s)return;const st=s.ex[s.i];if(!st.sets[j])return;if(st.sets[j].d){st.sets[j].d=0;Store.save();render()}}
 
+function muscleKey(e){return String(e&&e.muscle||'').split(/[·\/]/)[0].trim().toLowerCase()}
+function equivalentExercises(){
+ const s=Store.d.session,e=exList(s)[s.i],key=muscleKey(e),used=new Set(s.plan||[]);
+ let pool=exerciseLibrary(s.eq).filter(x=>x.name!==e.name&&!used.has(x.name));
+ pool.sort((a,b)=>(muscleKey(a)===key?0:1)-(muscleKey(b)===key?0:1));
+ return pool.slice(0,2);
+}
+function deferExercise(){
+ const s=Store.d.session;if(!s||s.i>=s.plan.length-1){closeModal();return}
+ const name=s.plan.splice(s.i,1)[0],state=s.ex.splice(s.i,1)[0];s.plan.push(name);s.ex.push(state);s.u=Date.now();Store.save();closeModal();render();
+}
+function replaceCurrent(name){
+ const s=Store.d.session;if(!s)return;const e=exerciseByName(s.eq,name);if(!e)return;
+ s.plan[s.i]=name;s.ex[s.i]=makeExerciseState(e,null);s.u=Date.now();Store.save();closeModal();render();
+}
+function swapExerciseUI(){
+ const list=equivalentExercises();if(!list.length){modal('<h3>Sem equivalente agora</h3><p class="hrow">Não encontrei outra opção adequada neste equipamento sem repetir o treino.</p>','Trocar exercício');return}
+ modal(`<h3>Trocar por equivalente</h3><p class="hrow">Mesmo equipamento. O exercício novo entra exatamente nesta posição.</p>${list.map(e=>`<button class="opt" onclick="replaceCurrent('${e.name.replace(/'/g,"\\'")}')"><b>${escapeHTML(e.name)}</b><br><small>${escapeHTML(e.muscle)}</small></button>`).join('')}`,'Trocar exercício');
+}
+function specificHint(kind){
+ const s=Store.d.session,e=exList(s)[s.i],g=trxGuideFor(e.name);
+ if(g)return kind==='e'?g.easy:g.hard;
+ if(kind==='e'){
+  if(e.w)return 'Reduza a carga mantendo a mesma técnica e amplitude confortável. '+e.tip;
+  return 'Reduza a amplitude ou simplifique a alavanca. '+e.tip;
+ }
+ if(e.w)return 'Quando completar o topo da faixa com controle, aumente um pequeno passo de carga na próxima série ou sessão.';
+ return 'Aumente gradualmente tempo, controle ou alavanca sem sacrificar a técnica.';
+}
+function saveAdjustment(v){const s=Store.d.session,e=exList(s)[s.i];Store.d.adjustments[e.name]=String(v||'').trim();Store.save()}
 function setNote(){const s=Store.d.session,st=s.ex[s.i];modal(`<h3>Nota deste exercício</h3><textarea id="exerciseNote" maxlength="240" style="width:100%;min-height:120px;background:#0b0f1a;color:var(--tx);border:1px solid var(--line);border-radius:14px;padding:12px;font:16px var(--s)">${escapeHTML(st.note||'')}</textarea><button class="btn" onclick="st=Store.d.session.ex[Store.d.session.i];st.note=document.querySelector('#exerciseNote').value;Store.d.session.u=Date.now();Store.save();closeModal();render()">SALVAR NOTA</button>`,'Exercício')}
-function exerciseMenu(){const s=Store.d.session,st=s.ex[s.i];modal(`<h3>Ajustes do exercício</h3><button class="btn g" onclick="closeModal();goExercise(1)">PULAR POR AGORA</button><button class="btn g" onclick="setNote()">NOTA</button><div class="grid"><button class="btn g" onclick="adjRest(-15);closeModal()">−15 s descanso</button><button class="btn g" onclick="adjRest(15);closeModal()">+15 s descanso</button></div>`,'Exercício')}
+function exerciseMenu(){const s=Store.d.session,e=exList(s)[s.i];modal(`<h3>${escapeHTML(e.name)}</h3><p class="hrow">Escolha uma ação. Nada altera seu histórico anterior.</p><button class="btn g" onclick="swapExerciseUI()">⇄ TROCAR POR EQUIVALENTE</button><button class="btn g" onclick="deferExercise()">↧ ADIAR PARA O FIM</button><button class="btn g" onclick="setNote()">✎ NOTA</button><div class="grid"><button class="btn g" onclick="adjRest(-15);closeModal()">−15 s</button><button class="btn g" onclick="adjRest(15);closeModal()">+15 s</button></div>`,'Opções do exercício')}
 
 /* ================= INTERFACE ================= */
 function closeModal(){document.body.classList.remove('modal-open');$('#ov').innerHTML=''}
