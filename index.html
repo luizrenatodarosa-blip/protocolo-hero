@@ -382,14 +382,24 @@ function motionGuideHTML(e){
 }
 
 /* ================= ARMAZENAMENTO ================= */
-const Store={k:'hero_v1',d:null,
- load(){try{this.d=JSON.parse(localStorage.getItem(this.k))}catch(e){}this.d=this.d||{history:[],session:null,gymName:'Minha academia'};if(!Array.isArray(this.d.history))this.d.history=[];if(!this.d.gymName)this.d.gymName='Minha academia';},
- save(){try{localStorage.setItem(this.k,JSON.stringify(this.d))}catch(e){}}};
+const Store={k:'hero_v1',d:null,hadLocal:false,storageOK:true,
+ load(){let raw=null;try{raw=localStorage.getItem(this.k);this.hadLocal=!!raw;if(raw)this.d=JSON.parse(raw)}catch(e){this.storageOK=false;console.warn('[PROTOCOLO HERO] localStorage indisponível',e)}this.d=this.d||{history:[],session:null,gymName:'Minha academia'};},
+ openDB(){return new Promise((resolve,reject)=>{if(!('indexedDB' in window))return resolve(null);const req=indexedDB.open('protocolo_hero_db',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('kv'))db.createObjectStore('kv')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})},
+ backup(payload){this.openDB().then(db=>{if(!db)return;const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(payload,'state')}).catch(e=>console.warn('[PROTOCOLO HERO] backup IndexedDB falhou',e))},
+ save(){this.d._updatedAt=Date.now();const payload=JSON.stringify(this.d);let ok=false;try{localStorage.setItem(this.k,payload);ok=localStorage.getItem(this.k)===payload;this.storageOK=ok}catch(e){this.storageOK=false;console.warn('[PROTOCOLO HERO] falha ao salvar localStorage',e)}this.backup(payload);return ok},
+ recover(){if(this.hadLocal)return Promise.resolve(false);return this.openDB().then(db=>new Promise(resolve=>{if(!db)return resolve(false);const tx=db.transaction('kv','readonly');const req=tx.objectStore('kv').get('state');req.onsuccess=()=>{try{if(!req.result)return resolve(false);const data=JSON.parse(req.result);if(!data||typeof data!=='object')return resolve(false);this.d=data;ensureStoreShape();try{localStorage.setItem(this.k,JSON.stringify(this.d));this.storageOK=true}catch(e){this.storageOK=false}resolve(true)}catch(e){resolve(false)}};req.onerror=()=>resolve(false)})).catch(()=>false)}
+};
 Store.load();
-Store.d.runs=Array.isArray(Store.d.runs)?Store.d.runs:[];
-Store.d.padel=Array.isArray(Store.d.padel)?Store.d.padel:[];
-Store.d.settings=Store.d.settings||{shortMode:false,warmup:true};
-Store.d.version='1.0.2';
+function ensureStoreShape(){
+ Store.d=Store.d&&typeof Store.d==='object'?Store.d:{};
+ Store.d.history=Array.isArray(Store.d.history)?Store.d.history:[];
+ Store.d.runs=Array.isArray(Store.d.runs)?Store.d.runs:[];
+ Store.d.padel=Array.isArray(Store.d.padel)?Store.d.padel:[];
+ Store.d.settings=Store.d.settings||{shortMode:false,warmup:true};
+ Store.d.gymName=Store.d.gymName||'Minha academia';
+ Store.d.version='1.0.3';
+}
+ensureStoreShape();
 function makeExerciseState(e,old){
  old=old&&typeof old==='object'?old:{};
  const oldSets=Array.isArray(old.sets)?old.sets:[];
@@ -529,6 +539,9 @@ function vProg(){const c={A:0,B:0,C:0};H().forEach(h=>c[h.w]++);const wks=[...Ar
 function vAbout(){$('#app').innerHTML=`<div class="logo"><i></i>SOBRE</div><div class="card author-card"><span class="vmark">VERSÃO 1</span><h2>PROTOCOLO HERO</h2><p>Treino integrado de força, corrida, padel e core. Criado para registro rápido, clareza durante o treino e acompanhamento pessoal.</p><div class="lbl" style="margin-top:22px">GERADO POR</div><div class="author-name">Luiz Renato da Rosa</div><div class="legal-note">Dados armazenados localmente neste dispositivo. O app não realiza diagnóstico médico e não substitui orientação profissional individualizada.</div></div><button class="btn g" onclick="view='more';render()">VOLTAR</button>${footerSign()}`}
 
 render();
+Store.recover().then(restored=>{if(restored){ensureStoreShape();normalizeSession();Store.save();render()}});
+window.addEventListener('pagehide',()=>Store.save());
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')Store.save()});
 </script>
 <script>
 if('serviceWorker' in navigator && location.protocol.startsWith('http')){
