@@ -580,7 +580,7 @@ function adjustActive(field,delta){
 function completeActiveSet(){
  const s=Store.d.session;if(!s)return;const st=s.ex[s.i],idx=currentSetIndex(st);if(idx>=st.sets.length)return;
  const set=st.sets[idx];if(!set.r)set.r=String(parseInt(exList(s)[s.i].reps)||1);set.d=1;
- const next=st.sets[idx+1];if(next){if(!next.kg&&set.kg)next.kg=set.kg;if(!next.r&&set.r)next.r=set.r}
+ const next=st.sets[idx+1];if(next){if(set.kg)next.kg=set.kg;if(set.r)next.r=set.r}
  s.u=Date.now();Store.save();
  const sec=st.rest;render();rest(sec);
 }
