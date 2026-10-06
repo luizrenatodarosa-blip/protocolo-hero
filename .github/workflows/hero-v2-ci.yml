@@ -1,0 +1,23 @@
+name: HERO V2 - Smoke Tests
+
+on:
+  push:
+    branches: [hero-v2]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Rodar testes HERO V2
+        run: node tests/smoke.cjs
